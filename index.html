@@ -5,8 +5,11 @@
     <script src="dnd-items.js"></script>
     <script src="dnd-columns.js"></script>
 	  <script src="modal.js"></script>
+    <script src="modal-hard.js"></script>
   </head>
   <body>
+    <button onclick="createModal()">Открыть окно</button>
+
     <div class="board">
       <div class="column column1">
         <div class="board-column-header" draggable>First column</div>
@@ -57,7 +60,7 @@
 
 
 
-      <div id="myModal" class="modal">
+      <!-- <div id="myModal" class="modal">
         <div class="modal-content">
           <span class="close" onclick="closeModal()">&times;</span>
           <h2>Заголовок окна</h2>
@@ -69,6 +72,7 @@
             <input type="submit" value="Отправить">
           </form>
         </div>
+      </div> -->
     </div>
   </body>
 </html>
