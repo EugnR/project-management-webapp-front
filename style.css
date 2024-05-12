@@ -79,7 +79,7 @@ body {
 .placeholder-column {
   background-color: white;
   width: var(--column-width);
-  border: none;
+  border: black dotted;
   margin-right: 20px;
   padding: 5px;
 }
