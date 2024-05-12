@@ -53,7 +53,7 @@ body {
   
 }
 
-.board-item-content {
+.board-item-content,.board-item-description  {
   pointer-events: none;
   user-select: none;
   -moz-user-select: none;

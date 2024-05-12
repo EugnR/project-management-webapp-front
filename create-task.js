@@ -1,5 +1,13 @@
-(() => {
-  let currentDroppable = null;
+{/* <div class="column" data-col-id=1 >
+    <div class="board-column-header" draggable>Col_Header</div>
+    <div class="board-column-content-wrapper">
+        <div class="board-item" data-item-id draggable>
+            <div class="board-item-content">Item #11</div>
+        </div>
+    </div>
+</div > */}
+
+let currentDroppable = null;
   let placeholder;
   let isDraggingStarted = false;
   let movingElement;
@@ -140,7 +148,6 @@
       items.forEach(function (item) {
         // Устанавливаем заново значение атрибута data-item-id у каждого элемента с выводом в консоль
         item.dataset.itemId = newItemIndex;
-        
         newItemIndex+=1;
       });
     });
@@ -170,5 +177,65 @@
     }
   });
 
-  
-})();
+
+
+
+function createTask() {
+
+    // Найти элемент с классом 'column' и атрибутом 'data-col-id' равным '1'
+    var column = document.querySelector('.column[data-col-id="1"]');
+    // Найти элемент с классом 'board-column-content-wrapper' внутри найденного элемента 'column'
+    var contentWrapper = column.querySelector('.board-column-content-wrapper');
+
+    var items = column.querySelectorAll('.board-item:not(.emptySectionHiddenLesson)');
+
+
+
+    // Создаем элемент div
+    var boardItem = document.createElement('div');
+    // Добавляем ему класс 'board-item'
+    boardItem.classList.add('board-item');
+    // Добавляем атрибуты data
+    boardItem.setAttribute('data-item-id', items.length + 1);
+    boardItem.setAttribute('data-item-col-id', 1);
+    // Добавляем атрибут draggable
+    boardItem.setAttribute('draggable', true);
+    boardItem.setAttribute('onclick', "createModal()")
+
+    // Создаем элемент div для контента внутри boardItem
+    var boardItemContent = document.createElement('div');
+    // Добавляем ему класс 'board-item-content'
+    boardItemContent.classList.add('board-item-content');
+    // Добавляем текст внутри элемента boardItemContent
+    boardItemContent.textContent = 'Untitled';
+
+    // Добавляем boardItemContent внутрь boardItem
+    boardItem.appendChild(boardItemContent);
+
+    // Создаем элемент div для описания внутри boardItem
+    var boardItemDescription = document.createElement('div');
+    // Добавляем ему класс 'board-item-description'
+    boardItemDescription.classList.add('board-item-description');
+    // Добавляем текст внутри элемента boardItemContent
+    boardItemDescription.textContent = '';
+
+
+    // Добавляем boardItemDescription внутрь boardItem
+    boardItem.appendChild(boardItemDescription);
+    
+    // Назначаем обработчики событий на новый элемент
+    boardItem.onmousedown = onMouseDown;
+    boardItem.ondragstart = () => {
+        return false;
+    };
+
+    // Добавить 'boardItem' внутрь 'contentWrapper'
+    contentWrapper.appendChild(boardItem);
+
+
+
+
+
+
+
+}
