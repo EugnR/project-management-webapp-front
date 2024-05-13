@@ -10,8 +10,8 @@
       .querySelectorAll(".board-column-content-wrapper")
       .forEach((section) => {
         if (
-          //!section.querySelector(".board-item:not(.emptySectionHiddenLesson)")
-          !section.querySelector(".board-item:not(.emptySectionHiddenLesson), .emptySectionHiddenLesson")
+
+          !section.querySelector(".board-item.emptySectionHiddenLesson")
         ) {
           const emptySectionHiddenLesson = document.createElement("div");
           emptySectionHiddenLesson.classList.add(
@@ -20,14 +20,6 @@
           );
           section.append(emptySectionHiddenLesson);
         }
-        // else 
-        // {
-        //   const emptySectionHiddenLesson = section.querySelector(
-        //     ".emptySectionHiddenLesson"
-        //   );
-        //   emptySectionHiddenLesson &&
-        //     section.removeChild(emptySectionHiddenLesson);
-        // }
       });
   };
 
@@ -162,6 +154,7 @@
   };
 
   window.addEventListener("load", () => {
+    processEmptySections();
     for (const draggableElement of document.querySelectorAll(".board-item")) {
       draggableElement.onmousedown = onMouseDown;
       draggableElement.ondragstart = () => {
