@@ -12,30 +12,57 @@ let currentDroppable = null;
   let isDraggingStarted = false;
   let movingElement;
 
+  // const processEmptySections = () => {
+  //   // Create not visible .board-item in empty sections to dnd work with it too
+  //   document
+  //     .querySelectorAll(".board-column-content-wrapper")
+  //     .forEach((section) => {
+  //       if (
+  //         //!section.querySelector(".board-item:not(.emptySectionHiddenLesson)")
+  //         !section.querySelector(".board-item:not(.emptySectionHiddenLesson), .emptySectionHiddenLesson")
+  //       ) {
+  //         const emptySectionHiddenLesson = document.createElement("div");
+  //         emptySectionHiddenLesson.classList.add(
+  //           "board-item",
+  //           "emptySectionHiddenLesson"
+  //         );
+  //         section.append(emptySectionHiddenLesson);
+  //       }
+  //       // else 
+  //       // {
+  //       //   const emptySectionHiddenLesson = section.querySelector(
+  //       //     ".emptySectionHiddenLesson"
+  //       //   );
+  //       //   emptySectionHiddenLesson &&
+  //       //     section.removeChild(emptySectionHiddenLesson);
+  //       // }
+  //     });
+  // };
+
   const processEmptySections = () => {
     // Create not visible .board-item in empty sections to dnd work with it too
     document
       .querySelectorAll(".board-column-content-wrapper")
       .forEach((section) => {
+        let col_number = section.closest(".column").dataset.colId
+
         if (
-          //!section.querySelector(".board-item:not(.emptySectionHiddenLesson)")
-          !section.querySelector(".board-item:not(.emptySectionHiddenLesson), .emptySectionHiddenLesson")
+          !section.querySelector(".board-item.emptySectionHiddenLesson")
         ) {
           const emptySectionHiddenLesson = document.createElement("div");
+          emptySectionHiddenLesson.setAttribute("data-item-col-id", col_number);
+          emptySectionHiddenLesson.setAttribute('draggable', false);
+
           emptySectionHiddenLesson.classList.add(
             "board-item",
             "emptySectionHiddenLesson"
           );
+          emptySectionHiddenLesson.innerHTML = "+ Добавить";
+          emptySectionHiddenLesson.style.textAlign = "center";
+          //emptySectionHiddenLesson.setAttribute("onclick", "createTask('${col_number}')")
+          emptySectionHiddenLesson.onclick = function () { createTask(col_number); }
           section.append(emptySectionHiddenLesson);
         }
-        // else 
-        // {
-        //   const emptySectionHiddenLesson = section.querySelector(
-        //     ".emptySectionHiddenLesson"
-        //   );
-        //   emptySectionHiddenLesson &&
-        //     section.removeChild(emptySectionHiddenLesson);
-        // }
       });
   };
 
@@ -181,11 +208,11 @@ let currentDroppable = null;
 
 
 function createTask(col_number) {
-  console.log(col_number);
+  //console.log(col_number);
     // Найти элемент с классом 'column' и атрибутом 'data-col-id' равным col_number
     // var column = document.querySelector('.column[data-col-id="1"]');
     var column = document.querySelector(`.column[data-col-id="${col_number}"]`);
-    console.log(column);
+    //console.log(column);
     // Найти элемент с классом 'board-column-content-wrapper' внутри найденного элемента 'column'
     var contentWrapper = column.querySelector('.board-column-content-wrapper');
 

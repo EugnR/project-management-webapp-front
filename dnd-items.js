@@ -19,8 +19,8 @@
           emptySectionHiddenLesson.setAttribute('draggable', false);
 
           emptySectionHiddenLesson.classList.add(
-            "emptySectionHiddenLesson",
-            "board-item"
+            "board-item",
+            "emptySectionHiddenLesson"
           );
           emptySectionHiddenLesson.innerHTML = "+ Добавить";
           emptySectionHiddenLesson.style.textAlign = "center";

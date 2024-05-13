@@ -96,7 +96,7 @@ body {
 
 
 .placeholder-column {
-  background-color: white;
+  background-color: violet;
   width: var(--column-width);
   border: black dotted;
   margin-right: 20px;
