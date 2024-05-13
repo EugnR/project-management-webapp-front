@@ -169,7 +169,7 @@ let currentDroppable = null;
   };
 
   window.addEventListener("load", () => {
-    for (const draggableElement of document.querySelectorAll(".board-item")) {
+    for (const draggableElement of document.querySelectorAll(".board-item:not(.emptySectionHiddenLesson)")) {
       draggableElement.onmousedown = onMouseDown;
       draggableElement.ondragstart = () => {
         return false;
@@ -180,14 +180,18 @@ let currentDroppable = null;
 
 
 
-function createTask() {
-
-    // Найти элемент с классом 'column' и атрибутом 'data-col-id' равным '1'
-    var column = document.querySelector('.column[data-col-id="1"]');
+function createTask(col_number) {
+  console.log(col_number);
+    // Найти элемент с классом 'column' и атрибутом 'data-col-id' равным col_number
+    // var column = document.querySelector('.column[data-col-id="1"]');
+    var column = document.querySelector(`.column[data-col-id="${col_number}"]`);
+    console.log(column);
     // Найти элемент с классом 'board-column-content-wrapper' внутри найденного элемента 'column'
     var contentWrapper = column.querySelector('.board-column-content-wrapper');
 
     var items = column.querySelectorAll('.board-item:not(.emptySectionHiddenLesson)');
+
+    var emptySectionHiddenLesson = column.querySelector('.board-item.emptySectionHiddenLesson');
 
 
 
@@ -230,7 +234,8 @@ function createTask() {
     };
 
     // Добавить 'boardItem' внутрь 'contentWrapper'
-    contentWrapper.appendChild(boardItem);
+    // contentWrapper.appendChild(boardItem);
+    contentWrapper.insertBefore(boardItem, emptySectionHiddenLesson);
 
 
 

@@ -91,17 +91,28 @@
     // Проходим по каждому элементу column
     columns.forEach(function (column) {
       column.dataset.colId = newColumnIndex;
-      newColumnIndex += 1;
+      
 
       // Находим все элементы класса board-item внутри текущей колонки
-      var items = column.querySelectorAll('.board-item:not(.emptySectionHiddenLesson)');
+      var items = column.querySelectorAll('.board-item');
 
       
       // Проходим по каждому элементу board-item
       items.forEach(function (item) {
         // Устанавливаем заново значение атрибута data-item-col-id у каждого элемента 
-        item.dataset.itemColId = column.dataset.colId;
+        if(!item.classList.contains("emptySectionHiddenLesson")){
+          item.dataset.itemColId = column.dataset.colId;
+        }
+        else{
+          item.onclick = function () { createTask(column.dataset.colId); }
+        }
       });
+      newColumnIndex += 1;
+
+
+
+
+
     });
 
 

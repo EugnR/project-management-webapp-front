@@ -39,7 +39,8 @@ body {
   cursor: move;
 }
 
-.board-item {
+
+.board-item:not(.emptySectionHiddenLesson) {
   background-color: #efffde;
   border: 1px dotted #9ecda8;
   border-radius: 5px;
@@ -47,12 +48,33 @@ body {
   cursor: move;
   margin-bottom: 0.5em;
   width: var(--item-width);
-  /* height: var(--item-height); */
- 
   height: auto; /* автоматическая высота блока */
-  word-wrap: break-word; /* перенос слов при необходимости*/
+  word-wrap: break-word; /* перенос слов при необходимости*/ 
+}
 
-  
+.board-item{
+  background-color: #efffde;
+  border: 1px dotted #9ecda8;
+  border-radius: 5px;
+  padding: 7px;
+  cursor: pointer;
+  margin-bottom: 0.5em;
+  width: var(--item-width);
+  height: auto; /* автоматическая высота блока */
+
+}
+
+
+.emptySectionHiddenLesson {
+  background: yellow;
+  /* border: solid black dotted; */
+  width: var(--item-width);
+  height: var(--item-height);
+
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .board-item-content,.board-item-description  {
@@ -71,12 +93,7 @@ body {
   height: var(--item-height);
 }
 
-.emptySectionHiddenLesson {
-  background: none;
-  border: solid black dotted;
-  width: var(--item-width);
-  height: var(--item-height);
-}
+
 
 .placeholder-column {
   background-color: white;

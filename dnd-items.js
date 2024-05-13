@@ -9,15 +9,23 @@
     document
       .querySelectorAll(".board-column-content-wrapper")
       .forEach((section) => {
-        if (
+        let col_number = section.closest(".column").dataset.colId
 
+        if (
           !section.querySelector(".board-item.emptySectionHiddenLesson")
         ) {
           const emptySectionHiddenLesson = document.createElement("div");
+          emptySectionHiddenLesson.setAttribute("data-item-col-id", col_number);
+          emptySectionHiddenLesson.setAttribute('draggable', false);
+
           emptySectionHiddenLesson.classList.add(
-            "board-item",
-            "emptySectionHiddenLesson"
+            "emptySectionHiddenLesson",
+            "board-item"
           );
+          emptySectionHiddenLesson.innerHTML = "+ Добавить";
+          emptySectionHiddenLesson.style.textAlign = "center";
+          //emptySectionHiddenLesson.setAttribute("onclick", "createTask('${col_number}')")
+          emptySectionHiddenLesson.onclick = function () { createTask(col_number); }
           section.append(emptySectionHiddenLesson);
         }
       });
@@ -132,8 +140,8 @@
       items.forEach(function (item) {
         // Устанавливаем заново значение атрибута data-item-id у каждого элемента с выводом в консоль
         item.dataset.itemId = newItemIndex;
-        
-        newItemIndex+=1;
+
+        newItemIndex += 1;
       });
     });
     //
@@ -155,7 +163,8 @@
 
   window.addEventListener("load", () => {
     processEmptySections();
-    for (const draggableElement of document.querySelectorAll(".board-item")) {
+    // for (const draggableElement of document.querySelectorAll(".board-item")) {
+    for (const draggableElement of document.querySelectorAll(".board-item:not(.emptySectionHiddenLesson)")) {
       draggableElement.onmousedown = onMouseDown;
       draggableElement.ondragstart = () => {
         return false;
@@ -163,5 +172,5 @@
     }
   });
 
-  
+
 })();
