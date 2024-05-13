@@ -8,6 +8,8 @@
   --column-width: 200px;
 }
 
+
+
 body {
   padding: 30px;
   color: #333;
@@ -89,6 +91,12 @@ body {
 
 
 /* стили для модальных окон, появляющихся при нажатии на карточки */
+
+::placeholder {
+  font-weight: bold;
+  opacity: 0.5;
+}
+
 .modal {
   display: none;
   position: fixed;
@@ -103,11 +111,25 @@ body {
 
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto;
+  margin: 5% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
+  height: 80%;
 }
+
+/* Стилизация элементов ввода и текстового поля */
+.modal-content input[type="text"]{
+    width: 100%; /* Ширина элементов займет всю доступную ширину */
+}
+
+/* Запрет изменения размера текстового поля вручную */
+.modal-content textarea {
+  width: 100%; /* Ширина элементов займет всю доступную ширину */
+  height: 60%;
+  resize: none;
+}
+
 
 .close {
   color: #aaa;

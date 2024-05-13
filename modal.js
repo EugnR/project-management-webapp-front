@@ -13,30 +13,32 @@ function createModal() {
     closeButton.onclick = removeDiv;
 
     var modalTitle = document.createElement("h2");
-    modalTitle.innerHTML = "Заголовок окна";
+    modalTitle.innerHTML = "Задача №nnn (должно считываться из атрибута)";
 
     var form = document.createElement("form");
 
-    var nameLabel = document.createElement("label");
-    nameLabel.setAttribute("for", "name");
-    nameLabel.innerHTML = "Имя:";
+    
     var nameInput = document.createElement("input");
     nameInput.setAttribute("type", "text");
-    nameInput.setAttribute("id", "name");
-    nameInput.setAttribute("name", "name");
-    form.appendChild(nameLabel);
+    nameInput.setAttribute("placeholder","Untitled");
+    
     form.appendChild(nameInput);
     form.appendChild(document.createElement("br")); // добавляем перенос строки
+    form.appendChild(document.createElement("br")); // добавляем перенос строки
 
-    var emailLabel = document.createElement("label");
-    emailLabel.setAttribute("for", "email");
-    emailLabel.innerHTML = "Email:";
-    var emailInput = document.createElement("input");
-    emailInput.setAttribute("type", "email");
-    emailInput.setAttribute("id", "email");
-    emailInput.setAttribute("name", "email");
-    form.appendChild(emailLabel);
-    form.appendChild(emailInput);
+    var taskTags = document.createElement("div");
+    taskTags.innerHTML = "тут должен быть выбор тэгов как в kaiten c выпадающим списком"
+    form.appendChild(taskTags);
+
+    form.appendChild(document.createElement("br")); // добавляем перенос строки
+    form.appendChild(document.createElement("br")); // добавляем перенос строки
+
+    
+    var descriptionInput = document.createElement("textarea");
+    descriptionInput.setAttribute("placeholder", "Описание задачи");
+    
+    form.appendChild(descriptionInput);
+    form.appendChild(document.createElement("br")); // добавляем перенос строки
     form.appendChild(document.createElement("br")); // добавляем перенос строки
 
     var submitInput = document.createElement("input");
@@ -76,3 +78,9 @@ window.onclick = function(event) {
         modal.remove();
     }
   }
+
+
+
+
+
+  
