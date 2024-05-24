@@ -26,9 +26,12 @@ body {
   border-radius: 5px;
   margin-right: 20px;
   padding: 5px;
+  height: auto;
 }
 
 .board-column-header {
+  border: 1px dotted #333;
+  border-radius: 5px;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -66,7 +69,7 @@ body {
 
 
 .emptySectionHiddenLesson {
-  background: yellow;
+  background: #fef75d;
   /* border: solid black dotted; */
   width: var(--item-width);
   height: var(--item-height);
@@ -78,12 +81,17 @@ body {
 }
 
 .board-item-content,.board-item-description  {
+  margin-bottom: 10px;
+  border: 1px dotted black;
+  border-radius: 5px;
   pointer-events: none;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+
+
 
 .placeholder {
   background-color: violet;
@@ -131,8 +139,11 @@ body {
   margin: 5% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
-  height: 80%;
+  /* width: 80%; */
+
+  min-width: 300px;
+  max-width: 900px;
+  height: auto;
 }
 
 /* Стилизация элементов ввода и текстового поля */
@@ -143,8 +154,9 @@ body {
 /* Запрет изменения размера текстового поля вручную */
 .modal-content textarea {
   width: 100%; /* Ширина элементов займет всю доступную ширину */
-  height: 60%;
-  resize: none;
+  /* height: 60%; */
+  resize: vertical;
+  min-height: 100px;
 }
 
 

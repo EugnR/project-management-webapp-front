@@ -1,5 +1,7 @@
 <html>
   <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
     <link rel="stylesheet" href="style.css" />
     <script src="dnd.js"></script>
     <script src="dnd-items.js"></script>
@@ -10,19 +12,29 @@
 
   </head>
   <body>
-    <button onclick="createModal()">Открыть окно</button>
+    <!-- <button onclick="createModal()">Открыть окно</button>
+    <br><br> -->
+    <!-- <button onclick="createTask()">Создать задачу</button>
+    <br><br> -->
+      <h1>Проект №000001</h1>
+      <h2>Пример названия</h2>
+
+      <button type="button" class="btn btn-info btn-sm rounded-pill">
+        <i class="fas fa-star"></i> Добавить статус-столбец
+      </button>
+
+    <!-- <button onclick="createColumn()">Создать столбец</button> -->
     <br><br>
-    <button onclick="createTask()">Создать задачу</button>
-    <br><br>
-    <button onclick="createColumn()">Создать столбец</button>
+    
+
     <div class="board">
       <div class="column" data-col-id= "1">
-        <div class="board-column-header" draggable>First column</div>
+        <div class="board-column-header" draggable>Запланировано</div>
         <div class="board-column-content-wrapper">
 
           <div class="board-item" data-item-id="1" data-item-col-id="1" draggable onclick="createModal()">
             <div class="board-item-content">Item #1</div>
-			      <div class="board-item-description">Item #1 description: С другой стороны, консультация с широким активом обеспечивает широкому кругу (специалистов) участие в формировании экономической целесообразности принимаемых решений. Как принято считать, интерактивные прототипы формируют глобальную экономическую сеть и при этом — смешаны с не уникальными данными д</div>
+			      <div class="board-item-description">Дополнительное описание задачи</div>
           </div>
           <div class="board-item" data-item-id="2" data-item-col-id="1" draggable="true">
             <div class="board-item-content">Item #2</div>
@@ -41,7 +53,7 @@
       </div>
 
       <div class="column" data-col-id="2" >
-        <div class="board-column-header" draggable>Second column</div>
+        <div class="board-column-header" draggable>Выполняется</div>
         <div class="board-column-content-wrapper">
 
           <div class="board-item" data-item-id="6" data-item-col-id="2" draggable>
@@ -57,7 +69,7 @@
       </div>
 
       <div class="column" data-col-id="3">
-        <div class="board-column-header" draggable>Third column</div>
+        <div class="board-column-header" draggable>Завершено</div>
         <div class="board-column-content-wrapper">
 
           <div class="board-item" data-item-id="11" data-item-col-id="3" draggable>

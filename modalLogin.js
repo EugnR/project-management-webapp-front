@@ -1,7 +1,9 @@
-function createModal() {
+
+
+function createRegistrationModal() {
     // Создаем элементы модального окна
     var modal = document.createElement("div");
-    modal.id = "myModal";
+    modal.id = "registerModal";
     modal.className = "modal";
 
     var modalContent = document.createElement("div");
@@ -13,38 +15,54 @@ function createModal() {
     closeButton.onclick = () => { removeDiv(modal.id); }
 
     var modalTitle = document.createElement("h2");
-    modalTitle.innerHTML = "Задача №nnn (должно считываться из атрибута)";
+    modalTitle.innerHTML = "Регистрация";
 
     var form = document.createElement("form");
 
 
     var nameInput = document.createElement("input");
+    nameInput.setAttribute("id", "userName");
     nameInput.setAttribute("type", "text");
-    nameInput.setAttribute("placeholder", "Untitled");
+    nameInput.setAttribute("placeholder", "Имя пользователя");
 
     form.appendChild(nameInput);
     form.appendChild(document.createElement("br")); // добавляем перенос строки
     form.appendChild(document.createElement("br")); // добавляем перенос строки
 
-    var taskTags = document.createElement("div");
-    taskTags.innerHTML = "тут должен быть выбор тэгов как в kaiten c выпадающим списком"
-    form.appendChild(taskTags);
 
+
+    var emailInput = document.createElement("input");
+    emailInput.setAttribute("id", "userEmail");
+    emailInput.setAttribute("type", "text");
+    emailInput.setAttribute("placeholder", "Email");
+
+    form.appendChild(emailInput);
     form.appendChild(document.createElement("br")); // добавляем перенос строки
     form.appendChild(document.createElement("br")); // добавляем перенос строки
 
+    var passInput = document.createElement("input");
 
-    var descriptionInput = document.createElement("textarea");
-    descriptionInput.setAttribute("placeholder", "Описание задачи");
+    
+    passInput.setAttribute("id", "userPass");
+    passInput.setAttribute("type", "text");
+    passInput.setAttribute("placeholder", "Пароль");
 
-    form.appendChild(descriptionInput);
+    form.appendChild(passInput);
     form.appendChild(document.createElement("br")); // добавляем перенос строки
     form.appendChild(document.createElement("br")); // добавляем перенос строки
+
 
     var submitInput = document.createElement("input");
+    submitInput.setAttribute("id", "registrationButton")
     submitInput.setAttribute("type", "submit");
     submitInput.setAttribute("value", "Отправить");
     form.appendChild(submitInput);
+
+    var testButton = document.createElement("button");
+    testButton.innerHTML = "тестовая кнопка";
+    form.appendChild(testButton);
+
+
 
     modalContent.appendChild(closeButton);
     modalContent.appendChild(modalTitle);
@@ -56,12 +74,46 @@ function createModal() {
 
     // Отображаем модальное окно
     modal.style.display = "block";
+
+
+
+
+    document.getElementById('registrationButton').addEventListener('click', function () {
+
+        const name = document.getElementById("userName").value;
+        const email = document.getElementById("userEmail").value;
+        const password = document.getElementById("userPass").value;
+
+        const user = {
+            name: name,
+            email: email,
+            password: password
+        };
+
+        fetch("http://localhost:8080/example/testpost", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(user)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success sending registration data: '), data;
+        })
+        .catch((error) => {
+            console.error('Error while sending registration data: ', error);
+        });
+
+        removeDiv(modal.id);
+    })
+
+
 }
 
-function removeDiv(blockName) {
+function removeDiv() {
     // Находим контейнер
-    // var container = document.getElementById("myModal");
-    var container = document.getElementById(`${blockName}`);
+    var container = document.getElementById("registerModal");
     container.remove();
     // Проверяем, есть ли элементы для удаления
     if (container.children.length > 0) {
@@ -74,22 +126,9 @@ function removeDiv(blockName) {
 }
 
 
-
-
-
-
-
-
-
 window.onclick = function (event) {
-    var modal = document.getElementById("myModal");
+    var modal = document.getElementById("registerModal");
     if (event.target == modal) {
         modal.remove();
     }
 }
-
-
-
-
-
-

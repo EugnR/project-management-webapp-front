@@ -159,6 +159,8 @@ function createColumn() {
     headerDiv.setAttribute("draggable", true);
     headerDiv.textContent = "New column";
 
+    // Создание блока-кнопки для удаления столбца
+
     // Создание контейнера для содержимого <div class="board-column-content-wrapper">
     var contentWrapperDiv = document.createElement("div");
     contentWrapperDiv.classList.add("board-column-content-wrapper");
