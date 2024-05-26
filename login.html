@@ -1,0 +1,34 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> -->
+
+    <link rel="stylesheet" href="style.css" />
+    <!-- <link rel="stylesheet" href="styles/stylesheet.css">
+    <link rel="stylesheet" href="styles/login_page_styles.css"> -->
+    
+    <title>Страница входа</title>
+</head>
+
+<body>
+
+
+
+    <input class="round-button round-button-back" type="button" onclick="javascript:history.back()" value="Назад">
+
+    <form>
+    <input type='text' id='login' name='login' class="round-container required-login" placeholder="Введите логин" required><br>
+
+    <input type='password' id='password' name='password' class="round-container required-login" placeholder="Введите пароль" required><br>
+    
+    <input type='button' value='Войти' class="round-button" onclick="" id="enterButton">
+    </form>
+    
+    <button  class="round-button" onclick="createRegistrationModal()" > Регистрация</button>
+
+    <script src="scripts/modalLogin copy.js"></script>
+    <script src="scripts/login.js"></script>
+</body>
+
+</html>
