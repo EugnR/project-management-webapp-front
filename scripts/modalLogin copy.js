@@ -126,7 +126,7 @@ function createRegistrationModal() {
             password: password
         };
 
-        fetch("http://localhost:8080/example/testpost", {
+        fetch("http://localhost:8080/api/v1/register", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'

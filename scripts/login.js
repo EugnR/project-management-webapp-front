@@ -51,7 +51,7 @@ document.getElementById('enterButton').addEventListener('click', function () {
         .then(data => {
             // Handle successful response from server
             console.log(data.status);
-            console.log(data.userId);
+            console.log(data.id);
 
             if (data.status == "Success") {
                 // Перенаправление на clients_page.html при успешной аутентификации
