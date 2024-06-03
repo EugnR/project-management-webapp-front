@@ -7,7 +7,7 @@
 
 
   // здесь должны быть запросы на подгрузку данных о статусах и задачах в проекте
-  //при загрузке пустой страницы всегда должен быть один пустой столбей
+  //при загрузке пустой страницы всегда должен быть один пустой столбей ---- НЕТ НЕ ДОЛЖЕН
   const processEmptySections = () => {
     // Create not visible .board-item in empty sections to dnd work with it too
     document
@@ -144,6 +144,8 @@
       items.forEach(function (item) {
         // Устанавливаем заново значение атрибута data-item-id у каждого элемента с выводом в консоль
         item.dataset.itemId = newItemIndex;
+
+        
 
         newItemIndex += 1;
       });

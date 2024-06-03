@@ -55,7 +55,7 @@ document.getElementById('enterButton').addEventListener('click', function () {
 
             if (data.status == "Success") {
                 // Перенаправление на clients_page.html при успешной аутентификации
-                sessionStorage.setItem('userId', data.userId)
+                sessionStorage.setItem('userId', data.id)
                 window.location.href = 'projects.html';
             } else {
                 alert('Неправильный логин или пароль!');
