@@ -42,7 +42,7 @@ function createRow(project) {
 
     row.innerHTML = `
         <td>${project.id}</td>
-        <td><span class="to-tasks" onclick='window.location.href="tasks.1html?project=${project.id}"'>${project.name}</span></td>
+        <td><span class="to-tasks" onclick='window.location.href="tasks.html?projectid=${project.id}&projectname=${project.name}"'>${project.name}</span></td>
         
         <td><span class="delete-link" onclick="deleteRow(this)" >Удалить</span></td>
     `;
