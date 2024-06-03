@@ -105,7 +105,8 @@ body {
 
 .placeholder-column {
   background-color: violet;
-  width: var(--column-width);
+  max-width: var(--column-width);
+  min-width: var(--column-width);
   border: black dotted;
   margin-right: 20px;
   padding: 5px;

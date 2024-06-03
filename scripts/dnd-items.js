@@ -4,6 +4,10 @@
   let isDraggingStarted = false;
   let movingElement;
 
+
+
+  // здесь должны быть запросы на подгрузку данных о статусах и задачах в проекте
+  //при загрузке пустой страницы всегда должен быть один пустой столбей
   const processEmptySections = () => {
     // Create not visible .board-item in empty sections to dnd work with it too
     document
@@ -158,6 +162,8 @@
     shifts.set(event.clientX, event.clientY, movingElement);
     initialMovingElementPageXY.set(movingElement);
     document.addEventListener("mousemove", onMouseMove);
+
+
     movingElement.onmouseup = onMouseUp;
   };
 
@@ -174,3 +180,9 @@
 
 
 })();
+
+
+
+
+
+

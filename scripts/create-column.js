@@ -169,9 +169,9 @@ function createColumn() {
     columnDiv.appendChild(headerDiv);
     columnDiv.appendChild(contentWrapperDiv);
 
-    // Назначаем обработчики событий на новый элемент
-    columnDiv.onmousedown = onMouseDownColumn;
-    columnDiv.ondragstart = () => {
+    // Назначаем обработчики событий на новый элемент               //СКОРЕЕ ВСЕГО ПРОСЛУШИВАТЕЛЬ ДОЛЖЕН БЫТЬ НЕ НА CLOUMN А НА HEADER
+    headerDiv.onmousedown = onMouseDownColumn;
+    headerDiv.ondragstart = () => {
         return false;
     };
 
