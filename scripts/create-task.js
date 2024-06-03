@@ -12,6 +12,8 @@ let placeholder;
 let isDraggingStarted = false;
 let movingElement;
 
+
+
 // const processEmptySections = () => {
 //   // Create not visible .board-item in empty sections to dnd work with it too
 //   document
@@ -192,6 +194,11 @@ const onMouseDown = (event) => {
   shifts.set(event.clientX, event.clientY, movingElement);
   initialMovingElementPageXY.set(movingElement);
   document.addEventListener("mousemove", onMouseMove);
+
+  horizontalScroll();
+  
+
+  
   movingElement.onmouseup = onMouseUp;
 };
 
@@ -203,6 +210,9 @@ window.addEventListener("load", () => {
     };
   }
 });
+
+
+
 
 
 
