@@ -1,6 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    getQueryParams();
+    params = getQueryParams();
+    document.querySelector('h1').innerHTML = `Проект ${params['projectid']}: ${params['projectname']} `;
 });
 
 
@@ -15,5 +16,5 @@ function getQueryParams() {
         params[pair[0]] = pair[1];
     }
 
-    document.querySelector('h1').innerHTML = `Проект ${params['projectid']}: ${params['projectname']} `;
+   return params;
 }
