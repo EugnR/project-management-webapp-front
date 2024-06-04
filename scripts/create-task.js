@@ -45,7 +45,7 @@ const processEmptySections = () => {
         !section.querySelector(".board-item.emptySectionHiddenLesson")
       ) {
         const emptySectionHiddenLesson = document.createElement("div");
-        emptySectionHiddenLesson.setAttribute("data-item-col-id", col_number);
+        emptySectionHiddenLesson.setAttribute("data-item-col-num-id", col_number);
         emptySectionHiddenLesson.setAttribute('draggable', false);
 
         emptySectionHiddenLesson.classList.add(
@@ -168,7 +168,7 @@ const onMouseUp = () => {
     var newItemIndex = 1
     // Проходим по каждому элементу board-item
     items.forEach(function (item) {
-      // Устанавливаем заново значение атрибута data-item-id у каждого элемента с выводом в консоль
+      // Устанавливаем заново значение атрибута data-item-pos у каждого элемента с выводом в консоль
       item.dataset.itemId = newItemIndex;
       newItemIndex += 1;
     });
@@ -230,8 +230,8 @@ function createTask(col_number) {
   // Добавляем ему класс 'board-item'
   boardItem.classList.add('board-item');
   // Добавляем атрибуты data
-  boardItem.setAttribute('data-item-id', items.length + 1);
-  boardItem.setAttribute('data-item-col-id', 1);
+  boardItem.setAttribute('data-item-pos', items.length + 1);
+  boardItem.setAttribute('data-item-col-num-id', 1);
   // Добавляем атрибут draggable
   boardItem.setAttribute('draggable', true);
   boardItem.setAttribute('onclick', "createModal()")

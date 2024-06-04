@@ -19,7 +19,7 @@
           !section.querySelector(".board-item.emptySectionHiddenLesson")
         ) {
           const emptySectionHiddenLesson = document.createElement("div");
-          emptySectionHiddenLesson.setAttribute("data-item-col-id", col_number);
+          emptySectionHiddenLesson.setAttribute("data-item-col-num-id", col_number);
           emptySectionHiddenLesson.setAttribute('draggable', false);
 
           emptySectionHiddenLesson.classList.add(
@@ -142,7 +142,7 @@
       var newItemIndex = 1
       // Проходим по каждому элементу board-item
       items.forEach(function (item) {
-        // Устанавливаем заново значение атрибута data-item-id у каждого элемента с выводом в консоль
+        // Устанавливаем заново значение атрибута data-item-pos у каждого элемента с выводом в консоль
         item.dataset.itemId = newItemIndex;
 
         
