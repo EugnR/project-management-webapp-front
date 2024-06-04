@@ -129,15 +129,14 @@ function initDNDforColumns(){
     movingElement.onmouseup = onMouseUp;
   };
 
-  window.addEventListener("load", () => {
-    for (const draggableElement of document.querySelectorAll(
-      ".board-column-header"
-    )) {
-      draggableElement.onmousedown = onMouseDown;
-      draggableElement.ondragstart = () => {
-        return false;
-      };
-    }
-  });
+
+   let tempArr = document.querySelectorAll(".board-column-header");
+
+  for (const draggableElement of document.querySelectorAll(".board-column-header")) {
+    draggableElement.onmousedown = onMouseDown;
+    draggableElement.ondragstart = () => {
+      return false;
+    };
+  };
 }
 
