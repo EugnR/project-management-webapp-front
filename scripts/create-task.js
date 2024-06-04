@@ -1,11 +1,4 @@
-{/* <div class="column" data-col-id=1 >
-    <div class="board-column-header" draggable>Col_Header</div>
-    <div class="board-column-content-wrapper">
-        <div class="board-item" data-item-id draggable>
-            <div class="board-item-content">Item #11</div>
-        </div>
-    </div>
-</div > */}
+
 
 let currentDroppable = null;
 let placeholder;
@@ -221,7 +214,7 @@ function createTask(col_number) {
   //console.log(col_number);
   // Найти элемент с классом 'column' и атрибутом 'data-col-id' равным col_number
   // var column = document.querySelector('.column[data-col-id="1"]');
-  var column = document.querySelector(`.column[data-col-id="${col_number}"]`);
+  var column = document.querySelector(`.column[data-col-pos="${col_number}"]`);
   //console.log(column);
   // Найти элемент с классом 'board-column-content-wrapper' внутри найденного элемента 'column'
   var contentWrapper = column.querySelector('.board-column-content-wrapper');

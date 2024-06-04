@@ -16,15 +16,17 @@ function buildBoard() {
     })
     .then(data => {
         console.log(data);
-        const tbody = document.querySelector('tbody');
-        tbody.innerHTML = ''; // Очистка содержимого tbody
-        // Проверка, является ли data массивом
-        if (Array.isArray(data)) {
-            // Заполнение таблицы данными из JSON
-            data.forEach(project => createRow(project));
-        } else {
-            console.error('Data is not an array:', data);
-        }
+        statusesList = data;
+        console.log(statusesList);
+        // const tbody = document.querySelector('tbody');
+        // tbody.innerHTML = ''; // Очистка содержимого tbody
+        // // Проверка, является ли data массивом
+        // if (Array.isArray(data)) {
+        //     // Заполнение таблицы данными из JSON
+        //     data.forEach(project => createRow(project));
+        // } else {
+        //     console.error('Data is not an array:', data);
+        // }
     })
     .catch(error => {
         // console.error('Error fetching projects:', error);
@@ -32,14 +34,25 @@ function buildBoard() {
     });
 
 
+function createStatus(name){
 
+}
 
 
     if (board) {
+        // Проверка, является ли data со статусами массивом
+        if (Array.isArray(statusesList)) {
+            statusesList.array.forEach(status => {
+                
+            });
+        } else {
+            console.error('Data with with statuses is not an array:', data);
+        }
+
         // Создание колонки
         const column = document.createElement('div');
         column.className = 'column';
-        column.setAttribute('data-col-id', '1');
+        column.setAttribute('data-col-pos', '1');
         
         // Создание заголовка колонки
         const columnHeader = document.createElement('div');

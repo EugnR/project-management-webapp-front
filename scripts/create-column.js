@@ -151,7 +151,7 @@ function createColumn() {
     // Создание основного элемента <div class="column" data-col-id="3">
     var columnDiv = document.createElement("div");
     columnDiv.classList.add("column");
-    columnDiv.setAttribute("data-col-id", numOfColumns + 1);
+    columnDiv.setAttribute("data-col-pos", numOfColumns + 1);
 
     // Создание заголовка <div class="board-column-header" draggable>Third column</div>
     var headerDiv = document.createElement("div");
