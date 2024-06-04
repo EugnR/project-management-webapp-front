@@ -89,8 +89,8 @@ function buildBoard() {
                         // Создание элемента задачи
                         const boardItem = document.createElement('div');
                         boardItem.className = 'board-item';
-                        boardItem.setAttribute('data-item-pos', '1');
-                        boardItem.setAttribute('data-item-col-num-id', '1');
+                        boardItem.setAttribute('task-pos', '1');
+                        boardItem.setAttribute('task-col-num', '1');
                         boardItem.setAttribute('draggable', 'true');
                         boardItem.setAttribute('onclick', 'createModal()');
 
@@ -122,8 +122,8 @@ function buildBoard() {
         // // Создание элемента задачи
         // const boardItem = document.createElement('div');
         // boardItem.className = 'board-item';
-        // boardItem.setAttribute('data-item-pos', '1');
-        // boardItem.setAttribute('data-item-col-num-id', '1');
+        // boardItem.setAttribute('task-pos', '1');
+        // boardItem.setAttribute('task-col-num', '1');
         // boardItem.setAttribute('draggable', 'true');
         // boardItem.setAttribute('onclick', 'createModal()');
 

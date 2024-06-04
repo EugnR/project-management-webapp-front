@@ -99,7 +99,7 @@
       
       // Проходим по каждому элементу board-item
       items.forEach(function (item) {
-        // Устанавливаем заново значение атрибута data-item-col-num-id у каждого элемента 
+        // Устанавливаем заново значение атрибута task-col-num у каждого элемента 
         if(!item.classList.contains("emptySectionHiddenLesson")){
           item.dataset.itemColId = column.dataset.colId;
         }
