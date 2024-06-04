@@ -121,6 +121,9 @@ function buildBoard() {
             console.error('Data with with statuses is not an array:', data);
         }
 
+        initDNDforColumns();
+        
+
         // // Создание колонки
         // const column = document.createElement('div');
         // column.className = 'column';

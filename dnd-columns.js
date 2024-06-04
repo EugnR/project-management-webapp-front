@@ -1,4 +1,4 @@
-(() => {
+function initDNDforColumns(){
   let currentDroppable = null;
   let placeholder;
   let isDraggingStarted = false;
@@ -139,4 +139,5 @@
       };
     }
   });
-})();
+}
+
