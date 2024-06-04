@@ -1,4 +1,4 @@
-(() => {
+function initDNDforItems() {
   let currentDroppable = null;
   let placeholder;
   let isDraggingStarted = false;
@@ -181,7 +181,7 @@
   });
 
 
-})();
+}
 
 
 

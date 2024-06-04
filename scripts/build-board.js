@@ -122,7 +122,7 @@ function buildBoard() {
         }
 
         initDNDforColumns();
-        
+        initDNDforItems();
 
         // // Создание колонки
         // const column = document.createElement('div');
