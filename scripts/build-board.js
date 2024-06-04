@@ -10,7 +10,7 @@ function buildBoard() {
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
+                throw new Error('Network response while getting statuses was not ok ' + response.statusText);
             }
             return response.json();
         })
@@ -18,15 +18,6 @@ function buildBoard() {
             console.log(data);
             statusesList = data;
             console.log(statusesList);
-            // const tbody = document.querySelector('tbody');
-            // tbody.innerHTML = ''; // Очистка содержимого tbody
-            // // Проверка, является ли data массивом
-            // if (Array.isArray(data)) {
-            //     // Заполнение таблицы данными из JSON
-            //     data.forEach(project => createRow(project));
-            // } else {
-            //     console.error('Data is not an array:', data);
-            // }
         })
         .catch(error => {
             // console.error('Error fetching projects:', error);
@@ -53,6 +44,9 @@ function buildBoard() {
                 columnHeader.className = 'board-column-header';
                 columnHeader.setAttribute('draggable', 'true');
                 columnHeader.textContent = `${status.name}`;
+
+                // Добавление заголовка в колонку
+                column.appendChild(columnHeader);
 
                 // Создание обертки для содержимого колонки
                 const columnContentWrapper = document.createElement('div');
@@ -94,10 +88,33 @@ function buildBoard() {
                         boardItem.setAttribute('draggable', 'true');
                         boardItem.setAttribute('onclick', 'createModal()');
 
+                        // Создание содержимого задачи
+                        const boardItemContent = document.createElement('div');
+                        boardItemContent.className = 'board-item-content';
+                        boardItemContent.textContent = `${task.name}`;
+
+                        // Создание описания задачи
+                        const boardItemDescription = document.createElement('div');
+                        boardItemDescription.className = 'board-item-description';
+                        boardItemDescription.textContent = `${task.description}`;
+
+                        // Добавление содержимого и описания в элемент задачи
+                        boardItem.appendChild(boardItemContent);
+                        boardItem.appendChild(boardItemDescription);
+
+                        // Добавление элемента задачи в обертку для содержимого колонки
+                        columnContentWrapper.appendChild(boardItem);
                     });
+
+                    // Добавление обертки для содержимого в колонку
+                    column.appendChild(columnContentWrapper);
+
                 } else {
-                    console.error('Data is not an array:', data);
+                    console.error('Data with tasks is not an array:', data);
                 }
+
+                // Добавление колонки в элемент board
+                board.appendChild(column);
 
             });
         } else {
@@ -127,29 +144,29 @@ function buildBoard() {
         // boardItem.setAttribute('draggable', 'true');
         // boardItem.setAttribute('onclick', 'createModal()');
 
-        // Создание содержимого задачи
-        const boardItemContent = document.createElement('div');
-        boardItemContent.className = 'board-item-content';
-        boardItemContent.textContent = 'Item #1';
+        // // Создание содержимого задачи
+        // const boardItemContent = document.createElement('div');
+        // boardItemContent.className = 'board-item-content';
+        // boardItemContent.textContent = 'Item #1';
 
-        // Создание описания задачи
-        const boardItemDescription = document.createElement('div');
-        boardItemDescription.className = 'board-item-description';
-        boardItemDescription.textContent = 'Дополнительное описание задачи';
+        // // Создание описания задачи
+        // const boardItemDescription = document.createElement('div');
+        // boardItemDescription.className = 'board-item-description';
+        // boardItemDescription.textContent = 'Дополнительное описание задачи';
 
-        // Добавление содержимого и описания в элемент задачи
-        boardItem.appendChild(boardItemContent);
-        boardItem.appendChild(boardItemDescription);
+        // // Добавление содержимого и описания в элемент задачи
+        // boardItem.appendChild(boardItemContent);
+        // boardItem.appendChild(boardItemDescription);
 
-        // Добавление элемента задачи в обертку для содержимого колонки
-        columnContentWrapper.appendChild(boardItem);
+        // // Добавление элемента задачи в обертку для содержимого колонки
+        // columnContentWrapper.appendChild(boardItem);
 
-        // Добавление заголовка и обертки для содержимого в колонку
-        column.appendChild(columnHeader);
-        column.appendChild(columnContentWrapper);
+        // // Добавление заголовка и обертки для содержимого в колонку
+        // column.appendChild(columnHeader);
+        // column.appendChild(columnContentWrapper);
 
-        // Добавление колонки в элемент board
-        board.appendChild(column);
+        // // Добавление колонки в элемент board
+        // board.appendChild(column);
     } else {
         console.error('Элемент с классом .board не найден');
     }
