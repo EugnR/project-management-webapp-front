@@ -1,3 +1,5 @@
+
+
 function buildBoard() {
     // Найти элемент с классом board
     const board = document.querySelector('.board');

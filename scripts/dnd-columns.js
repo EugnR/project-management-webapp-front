@@ -1,4 +1,4 @@
-(() => {
+function initDNDforColumns(){
   let currentDroppable = null;
   let placeholder;
   let isDraggingStarted = false;
@@ -99,7 +99,7 @@
       
       // Проходим по каждому элементу board-item
       items.forEach(function (item) {
-        // Устанавливаем заново значение атрибута task-col-num у каждого элемента 
+        // Устанавливаем заново значение атрибута data-item-col-id у каждого элемента 
         if(!item.classList.contains("emptySectionHiddenLesson")){
           item.dataset.itemColId = column.dataset.colId;
         }
@@ -139,4 +139,5 @@
       };
     }
   });
-})();
+}
+

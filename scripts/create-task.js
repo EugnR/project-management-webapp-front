@@ -1,5 +1,4 @@
 
-
 let currentDroppable = null;
 let placeholder;
 let isDraggingStarted = false;
@@ -284,3 +283,5 @@ function deleteTask(summoner) {
   let outerDiv = summoner.parentElement.parentElement;
   outerDiv.removeChild(summoner.parentElement);
 }
+
+

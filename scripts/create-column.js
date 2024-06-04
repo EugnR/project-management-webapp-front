@@ -1,3 +1,4 @@
+
 let currentDroppableColumn = null;
 let columnPlaceholder;
 let isColumnDraggingStarted = false;
@@ -182,3 +183,4 @@ function createColumn() {
 
     processEmptySections();
 }
+
