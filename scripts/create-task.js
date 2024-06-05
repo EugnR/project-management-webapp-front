@@ -33,6 +33,7 @@ let movingElement;
 //     });
 // };
 
+//проверяет наличие кнопок добавления новых задач в солбцах, и добавляет их при отсутствии
 const processEmptySections = () => {
   // Create not visible .board-item in empty sections to dnd work with it too
   document

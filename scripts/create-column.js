@@ -129,27 +129,26 @@ const onMouseDownColumn = (event) => {
     movingElementColumn.onmouseup = onMouseUpColumn;
 };
 
-window.addEventListener("load", () => {
-    for (const draggableElement of document.querySelectorAll(
-        ".board-column-header"
-    )) {
-        draggableElement.onmousedown = onMouseDownColumn;
-        draggableElement.ondragstart = () => {
-            return false;
-        };
-    }
-});
+for (const draggableElement of document.querySelectorAll(
+    ".board-column-header"
+)) {
+    draggableElement.onmousedown = onMouseDownColumn;
+    draggableElement.ondragstart = () => {
+        return false;
+    };
+};
 
 
 
 
 
 function createColumn() {
+    //находим досу и количество всех столбцов
     var board = document.querySelector(".board");
     var numOfColumns = document.querySelectorAll(".column").length;
 
 
-    // Создание основного элемента <div class="column" data-col-id="3">
+    // Создание основного элемента <div class="column" data-col-pos="3">
     var columnDiv = document.createElement("div");
     columnDiv.classList.add("column");
     columnDiv.setAttribute("data-col-pos", numOfColumns + 1);
@@ -158,7 +157,26 @@ function createColumn() {
     var headerDiv = document.createElement("div");
     headerDiv.classList.add("board-column-header");
     headerDiv.setAttribute("draggable", true);
-    headerDiv.textContent = "New column";
+    let newColumnName = "New column";
+    let newColumnPosition = numOfColumns + 1;
+    let newColumnProjectId = getQueryParams().projectid;
+    headerDiv.textContent = newColumnName;
+    sendStatusToDB(newColumnName, newColumnPosition, newColumnProjectId)
+        .then(newStatusId => {
+            if (newStatusId !== false) {
+                columnDiv.setAttribute("data-col-id", newStatusId);
+            } else {
+                alert("Не удалось создать новый статус");
+                return;
+            }
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+            alert("Не удалось создать новый статус");
+            return;
+        });
+
+
 
     // Создание блока-кнопки для удаления столбца
 
@@ -170,7 +188,7 @@ function createColumn() {
     columnDiv.appendChild(headerDiv);
     columnDiv.appendChild(contentWrapperDiv);
 
-    // Назначаем обработчики событий на новый элемент               //СКОРЕЕ ВСЕГО ПРОСЛУШИВАТЕЛЬ ДОЛЖЕН БЫТЬ НЕ НА CLOUMN А НА HEADER
+    // Назначаем обработчики событий на новый элемент              
     headerDiv.onmousedown = onMouseDownColumn;
     headerDiv.ondragstart = () => {
         return false;
@@ -183,4 +201,41 @@ function createColumn() {
 
     processEmptySections();
 }
+
+
+
+
+//отправить имя, номер позиции и id проекта
+async function sendStatusToDB(statusName, statusPosition, statusProject) {
+    try {
+        const statusInfo = {
+            name: statusName,
+            position: statusPosition,
+            projectId: statusProject
+        };
+
+        const response = await fetch('http://localhost:8080/api/v1/createStatus', {
+            method: 'POST', // Метод POST
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(statusInfo) // Преобразование данных в JSON и установка в тело запроса
+        });
+
+        if (!response.ok) {
+            throw new Error('Сервер не вернул созданный статус ' + response.statusText);
+        }
+
+        const returnedStatus = await response.json();
+        let statusId = returnedStatus.id
+        return statusId;
+
+
+    } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error);
+        return false;
+    }
+}
+
+
 
