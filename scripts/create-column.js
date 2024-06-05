@@ -90,7 +90,7 @@ const onMouseUpColumn = () => {
 
     // Проходим по каждому элементу column
     columns.forEach(function (column) {
-        column.dataset.colId = newColumnIndex;
+        column.dataset.colPos = newColumnIndex;
 
 
         // Находим все элементы класса board-item внутри текущей колонки
@@ -101,10 +101,10 @@ const onMouseUpColumn = () => {
         items.forEach(function (item) {
             // Устанавливаем заново значение атрибута task-col-num у каждого элемента 
             if (!item.classList.contains("emptySectionHiddenLesson")) {
-                item.dataset.itemColId = column.dataset.colId;
+                item.dataset.taskColNum = column.dataset.colPos;
             }
             else {
-                item.onclick = function () { createTask(column.dataset.colId); }
+                item.onclick = function () { createTask(column.dataset.colPos); }
             }
         });
         newColumnIndex += 1;

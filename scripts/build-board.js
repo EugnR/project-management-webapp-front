@@ -84,8 +84,8 @@ function buildBoard() {
                     // Создание элемента задачи
                     const boardItem = document.createElement('div');
                     boardItem.className = 'board-item';
-                    boardItem.setAttribute('task-pos', '1');
-                    boardItem.setAttribute('task-col-num', '1');
+                    boardItem.setAttribute('data-task-pos', task.position);
+                    boardItem.setAttribute('data-task-col-num', status.position);
                     boardItem.setAttribute('draggable', 'true');
                     boardItem.setAttribute('onclick', 'createModal()');
 

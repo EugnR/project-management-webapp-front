@@ -38,13 +38,13 @@ const processEmptySections = () => {
   document
     .querySelectorAll(".board-column-content-wrapper")
     .forEach((section) => {
-      let col_number = section.closest(".column").dataset.colId
+      let col_number = section.closest(".column").dataset.colPos
 
       if (
         !section.querySelector(".board-item.emptySectionHiddenLesson")
       ) {
         const emptySectionHiddenLesson = document.createElement("div");
-        emptySectionHiddenLesson.setAttribute("task-col-num", col_number);
+        emptySectionHiddenLesson.setAttribute("data-task-col-num", col_number);
         emptySectionHiddenLesson.setAttribute('draggable', false);
 
         emptySectionHiddenLesson.classList.add(
@@ -136,7 +136,7 @@ const onMouseUp = () => {
   placeholder.parentNode.insertBefore(movingElement, placeholder);
 
   //устанавливаем номер столбца у задачи после переноса
-  movingElement.dataset.itemColId = placeholder.closest(".column").dataset.colId
+  movingElement.dataset.taskColNum = placeholder.closest(".column").dataset.colPos
 
 
   Object.assign(movingElement.style, {
@@ -167,8 +167,8 @@ const onMouseUp = () => {
     var newItemIndex = 1
     // Проходим по каждому элементу board-item
     items.forEach(function (item) {
-      // Устанавливаем заново значение атрибута task-pos у каждого элемента с выводом в консоль
-      item.dataset.itemId = newItemIndex;
+      // Устанавливаем заново значение атрибута data-task-pos у каждого элемента с выводом в консоль
+      item.dataset.taskPos = newItemIndex;
       newItemIndex += 1;
     });
   });
@@ -229,8 +229,8 @@ function createTask(col_number) {
   // Добавляем ему класс 'board-item'
   boardItem.classList.add('board-item');
   // Добавляем атрибуты data
-  boardItem.setAttribute('task-pos', items.length + 1);
-  boardItem.setAttribute('task-col-num', 1);
+  boardItem.setAttribute('data-task-pos', items.length + 1);
+  boardItem.setAttribute('data-task-col-num', col_number);
   // Добавляем атрибут draggable
   boardItem.setAttribute('draggable', true);
   boardItem.setAttribute('onclick', "createModal()")
