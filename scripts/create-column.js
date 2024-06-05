@@ -149,22 +149,38 @@ function createColumn() {
 
 
     // Создание основного элемента <div class="column" data-col-pos="3">
-    var columnDiv = document.createElement("div");
-    columnDiv.classList.add("column");
-    columnDiv.setAttribute("data-col-pos", numOfColumns + 1);
+    var column = document.createElement("div");
+    column.classList.add("column");
+    column.setAttribute("data-col-pos", numOfColumns + 1);
+
+    // Создание обёртки для заголовка колонки
+    const columnHeaderWrapper = document.createElement('div');
+    columnHeaderWrapper.className = 'board-column-header-wrapper';
+
+    //создание картинки внутри обёртки
+    const trashBin = document.createElement('img');
+    trashBin.src = 'images/trashbin.svg';
+    trashBin.className = 'board-column-deleter-img';
+
+    // Создание блока-кнопки для удаления колонки
+    const columnDeleter = document.createElement('div');
+
+    columnDeleter.className = 'board-column-deleter';
 
     // Создание заголовка <div class="board-column-header" draggable>Third column</div>
-    var headerDiv = document.createElement("div");
-    headerDiv.classList.add("board-column-header");
-    headerDiv.setAttribute("draggable", true);
+    var columnHeader = document.createElement("div");
+    columnHeader.classList.add("board-column-header");
+    columnHeader.setAttribute("draggable", true);
     let newColumnName = "New column";
     let newColumnPosition = numOfColumns + 1;
     let newColumnProjectId = getQueryParams().projectid;
-    headerDiv.textContent = newColumnName;
+    columnHeader.textContent = newColumnName;
     sendStatusToDB(newColumnName, newColumnPosition, newColumnProjectId)
         .then(newStatusId => {
             if (newStatusId !== false) {
-                columnDiv.setAttribute("data-col-id", newStatusId);
+                column.setAttribute("data-col-id", newStatusId);
+                // columnDeleter.onclick = function () { deleteColumn(newStatusId); };
+                columnDeleter.setAttribute("onclick", `deleteColumn(${newStatusId})`);
             } else {
                 alert("Не удалось создать новый статус");
                 return;
@@ -177,25 +193,27 @@ function createColumn() {
         });
 
 
-
-    // Создание блока-кнопки для удаления столбца
+    columnDeleter.appendChild(trashBin);
+    columnHeaderWrapper.appendChild(columnHeader);
+    columnHeaderWrapper.appendChild(columnDeleter);
+    column.appendChild(columnHeaderWrapper);
 
     // Создание контейнера для содержимого <div class="board-column-content-wrapper">
     var contentWrapperDiv = document.createElement("div");
     contentWrapperDiv.classList.add("board-column-content-wrapper");
 
     // Добавление заголовка и контейнера для содержимого в основной элемент <div class="column">
-    columnDiv.appendChild(headerDiv);
-    columnDiv.appendChild(contentWrapperDiv);
+    // columnDiv.appendChild(headerDiv);
+    column.appendChild(contentWrapperDiv);
 
     // Назначаем обработчики событий на новый элемент              
-    headerDiv.onmousedown = onMouseDownColumn;
-    headerDiv.ondragstart = () => {
+    columnHeader.onmousedown = onMouseDownColumn;
+    columnHeader.ondragstart = () => {
         return false;
     };
 
     // Добавление созданного блока в DOM
-    board.appendChild(columnDiv);
+    board.appendChild(column);
 
 
 
@@ -233,6 +251,49 @@ async function sendStatusToDB(statusName, statusPosition, statusProject) {
 
     } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
+        return false;
+    }
+}
+
+
+
+
+
+
+async function deleteColumn(statusId) {
+    try {
+
+
+        const response = await fetch(`http://localhost:8080/api/v1/deleteStatus/${statusId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }
+        });
+
+
+
+        const returnedStatus = await response.json();
+        if (returnedStatus.status == "Success") {
+            console.log('статус удалился на сервере');
+
+            document.querySelector(`.column[data-col-id="${statusId}"]`);
+
+
+            return true;
+        } else if (returnedStatus.status == "fail") {
+            alert("не удалось удалить статус");
+            console.log('Сервер не нашёл и не удалил статус ');
+            return false;
+        } else {
+            console.log("при удалении статуса что-то пошло совсем не так")
+            return false;
+        }
+
+
+
+    } catch (error) {
+        console.error('при обращении на сервер произошла ошибка', error);
         return false;
     }
 }

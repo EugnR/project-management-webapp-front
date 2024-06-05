@@ -47,8 +47,7 @@ function buildBoard() {
             // Создание обёртки для заголовка колонки
             const columnHeaderWrapper = document.createElement('div');
             columnHeaderWrapper.className = 'board-column-header-wrapper';
-            // columnHeaderWrapper.setAttribute('draggable', 'true');
-            // columnHeaderWrapper.textContent = `${status.name}`;
+
 
             //создание картинки внутри обёртки
             const trashBin = document.createElement('img');
@@ -61,8 +60,10 @@ function buildBoard() {
             columnHeader.setAttribute('draggable', 'true');
             columnHeader.textContent = `${status.name}`;
 
-            // Создание заголовка колонки
+            // Создание кнопки для удаления колонки
             const columnDeleter = document.createElement('div');
+            // columnDeleter.onclick = function() {deleteColumn(status.id);};
+            columnDeleter.setAttribute("onclick", `deleteColumn(${status.id})`);
             columnDeleter.className = 'board-column-deleter';
 
             // Добавление заголовка в колонку
