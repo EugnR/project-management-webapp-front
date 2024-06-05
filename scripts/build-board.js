@@ -44,14 +44,32 @@ function buildBoard() {
             column.className = 'column';
             column.setAttribute('data-col-pos', `${status.position}`);
 
+            // Создание обёртки для заголовка колонки
+            const columnHeaderWrapper = document.createElement('div');
+            columnHeaderWrapper.className = 'board-column-header-wrapper';
+            // columnHeaderWrapper.setAttribute('draggable', 'true');
+            // columnHeaderWrapper.textContent = `${status.name}`;
+
+            //создание картинки внутри обёртки
+            const trashBin = document.createElement('img');
+            trashBin.src = 'images/trashbin.svg';
+            trashBin.className = 'board-column-deleter-img';
+
             // Создание заголовка колонки
             const columnHeader = document.createElement('div');
             columnHeader.className = 'board-column-header';
             columnHeader.setAttribute('draggable', 'true');
             columnHeader.textContent = `${status.name}`;
 
+            // Создание заголовка колонки
+            const columnDeleter = document.createElement('div');
+            columnDeleter.className = 'board-column-deleter';
+
             // Добавление заголовка в колонку
-            column.appendChild(columnHeader);
+            columnDeleter.appendChild(trashBin);
+            columnHeaderWrapper.appendChild(columnHeader);
+            columnHeaderWrapper.appendChild(columnDeleter);
+            column.appendChild(columnHeaderWrapper);
 
             // Создание обертки для содержимого колонки
             const columnContentWrapper = document.createElement('div');
