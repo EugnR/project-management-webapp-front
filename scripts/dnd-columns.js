@@ -88,7 +88,6 @@ function initDNDforColumns() {
     var newColumnIndex = 1;
     // Проходим по каждому элементу column
     columns.forEach(function (column) {
-      let colId = column.dataset.colId;
       column.dataset.colPos = newColumnIndex;
       // Находим все элементы класса board-item внутри текущей колонки
       var items = column.querySelectorAll('.board-item');
@@ -104,12 +103,10 @@ function initDNDforColumns() {
       });
       newColumnIndex += 1;
     });
-    
     let isColPosChanged = changeStatusPosition(movingElement.dataset.colId, movingElement.dataset.colPos);
     if (!isColPosChanged){
       return;
     }
-
 
     movingElement.onmouseup = null;
     movingElement = null;

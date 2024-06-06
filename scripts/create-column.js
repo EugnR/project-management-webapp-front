@@ -85,23 +85,12 @@ const onMouseUpColumn = () => {
 
     // Находим все элементы класса column
     var columns = document.querySelectorAll('.column');
-
     var newColumnIndex = 1;
-
     // Проходим по каждому элементу column
     columns.forEach(function (column) {
-
-        let colId = column.dataset.colId;
-        let isColPosChanged = changeStatusPosition(colId, newColumnIndex);
-        if (!isColPosChanged) {
-            return;
-        }
         column.dataset.colPos = newColumnIndex;
-
         // Находим все элементы класса board-item внутри текущей колонки
         var items = column.querySelectorAll('.board-item');
-
-
         // Проходим по каждому элементу board-item
         items.forEach(function (item) {
             // Устанавливаем заново значение атрибута task-col-num у каждого элемента 
@@ -113,13 +102,11 @@ const onMouseUpColumn = () => {
             }
         });
         newColumnIndex += 1;
-
-
-
-
-
     });
-
+    let isColPosChanged = changeStatusPosition(movingElementColumn.dataset.colId, movingElementColumn.dataset.colPos);
+    if (!isColPosChanged){
+      return;
+    }
 
     movingElementColumn.onmouseup = null;
     movingElementColumn = null;
