@@ -90,8 +90,13 @@ const onMouseUpColumn = () => {
 
     // Проходим по каждому элементу column
     columns.forEach(function (column) {
-        column.dataset.colPos = newColumnIndex;
 
+        let colId = column.dataset.colId;
+        let isColPosChanged = changeStatusPosition(colId, newColumnIndex);
+        if (!isColPosChanged) {
+            return;
+        }
+        column.dataset.colPos = newColumnIndex;
 
         // Находим все элементы класса board-item внутри текущей колонки
         var items = column.querySelectorAll('.board-item');
@@ -299,6 +304,27 @@ async function deleteColumn(statusId) {
         console.error('при обращении на сервер произошла ошибка', error);
         return false;
     }
+}
+
+async function changeStatusPosition(colId, newColumnIndex) {
+    const response = await fetch(`http://localhost:8080/api/v1/editStatusPosition/${colId}/${newColumnIndex}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+    })
+    const returnedStatus = await response.json();
+    if (returnedStatus.status == "Success") {
+        console.log('позиция статуса изменилась на сервере');
+        return true;
+    } else if (returnedStatus.status == "fail") {
+        console.log("не удалось изменить позицию статуса на сервере");
+        return false;
+    } else {
+        console.log("при удалении статуса что-то пошло совсем не так")
+        return false;
+    }
+
 }
 
 

@@ -46,6 +46,7 @@ function buildBoard() {
                 const column = document.createElement('div');
                 column.className = 'column';
                 column.setAttribute('data-col-pos', `${status.position}`);
+                column.setAttribute('data-col-id', `${status.id}`);
 
                 const columnHeaderWrapper = document.createElement('div');
                 columnHeaderWrapper.className = 'board-column-header-wrapper';
