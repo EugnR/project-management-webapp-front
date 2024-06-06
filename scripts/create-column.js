@@ -272,7 +272,7 @@ async function deleteColumn(statusId) {
             console.log('статус удалился на сервере');
             //тут идёт удаление элемента с доски после удаления с сервера
             //нужно добавить переустановку индексов столбцов и задач
-            // columnToDelete.remove();
+            columnToDelete.remove();
 
 
 

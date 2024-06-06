@@ -122,7 +122,7 @@ function initDNDforColumns() {
   };
 
 
-  let tempArr = document.querySelectorAll(".board-column-header");
+  // let tempArr = document.querySelectorAll(".board-column-header");
 
   for (const draggableElement of document.querySelectorAll(".board-column-header")) {
     draggableElement.onmousedown = onMouseDown;
