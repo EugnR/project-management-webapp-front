@@ -59,6 +59,7 @@ function buildBoard() {
                 columnHeader.className = 'board-column-header';
                 columnHeader.setAttribute('draggable', 'true');
                 columnHeader.textContent = `${status.name}`;
+                columnHeader.setAttribute('onclick', `createStatusModal(${status.id}, ${status.name})`);
 
                 const columnDeleter = document.createElement('div');
                 columnDeleter.setAttribute("onclick", `deleteColumn(${status.id})`);
@@ -107,7 +108,7 @@ function buildBoard() {
                                 boardItem.setAttribute('data-task-pos', task.position);
                                 boardItem.setAttribute('data-task-col-num', status.position);
                                 boardItem.setAttribute('draggable', 'true');
-                                boardItem.setAttribute('onclick', 'createModal()');
+                                boardItem.setAttribute('onclick', 'createTaskModal()');
 
                                 const boardItemContent = document.createElement('div');
                                 boardItemContent.className = 'board-item-content';

@@ -234,8 +234,8 @@ function createTask(col_number) {
   boardItem.setAttribute('data-task-col-num', col_number);
   // Добавляем атрибут draggable
   boardItem.setAttribute('draggable', true);
-  boardItem.setAttribute('onclick', "createModal()")
-  //boardItem.ondblclick = function() {createModal()}
+  boardItem.setAttribute('onclick', "createTaskModal()")
+  //boardItem.ondblclick = function() {createTaskModal()}
 
   // Создаем элемент div для контента внутри boardItem
   var boardItemContent = document.createElement('div');
@@ -243,7 +243,7 @@ function createTask(col_number) {
   boardItemContent.classList.add('board-item-content');
   // Добавляем текст внутри элемента boardItemContent
   boardItemContent.textContent = 'Untitled';
-  //boardItemContent.setAttribute('onclick', "createModal()")
+  //boardItemContent.setAttribute('onclick', "createTaskModal()")
 
   // Добавляем boardItemContent внутрь boardItem
   boardItem.appendChild(boardItemContent);
