@@ -262,7 +262,11 @@ async function sendStatusToDB(statusName, statusPosition, statusProject) {
 
 async function deleteColumn(statusId) {
     try {
-
+        let columnToDelete = document.querySelector(`.column[data-col-id="${statusId}"]`);
+        if (columnToDelete == null) {
+            alert("Удаляемый статус не найден на доске");
+            return false;
+        }
 
         const response = await fetch(`http://localhost:8080/api/v1/deleteStatus/${statusId}`, {
             method: 'DELETE',
@@ -271,19 +275,18 @@ async function deleteColumn(statusId) {
             }
         });
 
-
-
         const returnedStatus = await response.json();
         if (returnedStatus.status == "Success") {
             console.log('статус удалился на сервере');
+            //тут идёт удаление элемента с доски после удаления с сервера
+            //нужно добавить переустановку индексов столбцов и задач
+            // columnToDelete.remove();
 
-            document.querySelector(`.column[data-col-id="${statusId}"]`);
 
 
             return true;
         } else if (returnedStatus.status == "fail") {
-            alert("не удалось удалить статус");
-            console.log('Сервер не нашёл и не удалил статус ');
+            alert("Не удалось удалить статус. Сервер не нашёл и не удалил статус");
             return false;
         } else {
             console.log("при удалении статуса что-то пошло совсем не так")
