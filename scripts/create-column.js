@@ -164,10 +164,10 @@ function createColumn() {
     columnHeader.classList.add("board-column-header");
     columnHeader.setAttribute("draggable", true);
     let newColumnName = "New column";
-    let newColumnPosition = numOfColumns + 1;
+    // let newColumnPosition = numOfColumns + 1;
     let newColumnProjectId = getQueryParams().projectid;
     columnHeader.textContent = newColumnName;
-    sendStatusToDB(newColumnName, newColumnPosition, newColumnProjectId)
+    sendStatusToDB(newColumnName, newColumnProjectId)
         .then(newStatusId => {
             if (newStatusId !== false) {
                 column.setAttribute("data-col-id", newStatusId);
@@ -216,11 +216,11 @@ function createColumn() {
 
 
 //отправить имя, номер позиции и id проекта
-async function sendStatusToDB(statusName, statusPosition, statusProject) {
+async function sendStatusToDB(statusName, statusProject) {
     try {
         const statusInfo = {
             name: statusName,
-            position: statusPosition,
+            // position: statusPosition,
             projectId: statusProject
         };
 
