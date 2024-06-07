@@ -146,7 +146,13 @@ const onMouseUp = () => {
       newItemIndex += 1;
     });
   });
-  //
+  
+  let isTaskPosChanged = changeTaskPosition(movingElement.dataset.taskId, movingElement.closest(".column").dataset.colId, movingElement.dataset.taskPos);
+  if (!isTaskPosChanged){
+    alert("перенести задачу не удалось, обновите страницу");
+    return;
+  }
+
 
   movingElement.onmouseup = null;
   movingElement = null;
@@ -310,4 +316,23 @@ function deleteTask(summoner) {
   outerDiv.removeChild(summoner.parentElement);
 }
 
+async function changeTaskPosition(taskId, newStatusId, newPosition) {
+  const response = await fetch(`http://localhost:8080/api/v1/editTaskPosition/${taskId}/${newStatusId}/${newPosition}`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+      }
+  })
+  const returnedStatus = await response.json();
+  if (returnedStatus.status == "Success") {
+      console.log('позиция задачи изменилась на сервере');
+      return true;
+  } else if (returnedStatus.status == "fail") {
+      console.log("не удалось изменить позицию задачи на сервере");
+      return false;
+  } else {
+      console.log("при удалении статуса что-то пошло совсем не так")
+      return false;
+  }
 
+}

@@ -308,7 +308,7 @@ async function changeStatusPosition(colId, newColumnIndex) {
         console.log("не удалось изменить позицию статуса на сервере");
         return false;
     } else {
-        console.log("при удалении статуса что-то пошло совсем не так")
+        console.log("при перемещении задачи что-то пошло совсем не так")
         return false;
     }
 
