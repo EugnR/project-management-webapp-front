@@ -27,9 +27,43 @@ body {
   margin-right: 20px;
   padding: 5px;
   height: auto;
+  min-height: 130px;
+}
+
+.board-column-header-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2%;
+}
+
+.board-column-deleter{
+  display: flex;
+  flex: 0.1;
+  border: 1px dotted red;
+  border-radius: 5px;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+  /* background-image: url('../images/trashbin.svg');
+  background-size: contain;
+  background-repeat: no-repeat; */
+}
+.board-column-deleter:hover{
+  border: 3px dotted red;
+}
+.board-column-deleter-img{
+  max-width: 25px;
+  /* object-fit: contain ; */
 }
 
 .board-column-header {
+  flex: 1;
+  /* min-width: 100%; */
+  /* max-width: 100px; */
   border: 1px dotted #333;
   border-radius: 5px;
   user-select: none;

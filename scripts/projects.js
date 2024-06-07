@@ -5,68 +5,35 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 function loadProjects() {
-    const formData = {
-        "user": sessionStorage.getItem('userId'),
-    };
-    fetch('http://localhost:8080/api/v1/projectGet', {
-        method: 'POST',
+    const userId = sessionStorage.getItem('userId');
+    fetch(`http://localhost:8080/api/v1/getProjectsByUserId/${userId}`, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(formData)
-    }
-    )
-        .then(response => response.json())
-        .then(data => {
-
-            console.log(data);
-            
-            const tbody = document.querySelector('tbody');
-            tbody.innerHTML = ''; // Очистка содержимого tbody
-
-            // const projectContainer = document.getElementById('projectContainer');
-            // projectContainer.innerHTML = ''; // Очищаем контейнер перед добавлением новых ссылок
-
-            // Object.keys(data).forEach(key => {
-            //     const projectName = data[key];
-            //     const projectLink = document.createElement('a');
-            //     projectLink.href = '#';
-            //     projectLink.textContent = projectName;
-            //     projectLink.className = 'project-link';
-            //     projectContainer.appendChild(projectLink);
-            // });
-
-
-            // Пример JSON данных пользователей, полученных с бэкенда
-            // const users = [
-            //     { id: 1, username: 'JohnDoe', email: 'john@example.com' },
-            //     { id: 2, username: 'JaneDoe', email: 'jane@example.com' }
-            //     // Можно добавить больше пользователей здесь
-            // ];
-    
-            // Функция для создания строки таблицы
-            
-    
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+        const tbody = document.querySelector('tbody');
+        tbody.innerHTML = ''; // Очистка содержимого tbody
+        // Проверка, является ли data массивом
+        if (Array.isArray(data)) {
             // Заполнение таблицы данными из JSON
             data.forEach(project => createRow(project));
-    
-
-            
-
-
-
-
-
-        })
-        .catch(error => {
-            console.error('Error fetching projects:', error);
-        });
-
-
-
-    // document.getElementById('createButton').addEventListener('click', () => {
-
-    // })
+        } else {
+            console.error('Data is not an array:', data);
+        }
+    })
+    .catch(error => {
+        // console.error('Error fetching projects:', error);
+        console.error(error);
+    });
 }
 
 function createRow(project) {
@@ -75,14 +42,14 @@ function createRow(project) {
 
     row.innerHTML = `
         <td>${project.id}</td>
-        <td><span class="to-tasks" onclick='window.location.href="tasks.html?project=${project.id}"'>${project.name}</span></td>
+        <td><span class="to-tasks" onclick='window.location.href="tasks.html?projectid=${project.id}&projectname=${project.name}"'>${project.name}</span></td>
         
         <td><span class="delete-link" onclick="deleteRow(this)" >Удалить</span></td>
     `;
 
-// <td>${project.name}</td>
-/* <td><span class="to-tasks" href="index.html?project=${project.id}">${project.name}</span></td> */
-// <button onclick="window.location.href='page2.html';">Перейти на страницу 2</button>
+    // <td>${project.name}</td>
+    /* <td><span class="to-tasks" href="index.html?project=${project.id}">${project.name}</span></td> */
+    // <button onclick="window.location.href='page2.html';">Перейти на страницу 2</button>
 
 
     tbody.appendChild(row);
@@ -96,7 +63,7 @@ function deleteRow(element) {
 
 
 
-    fetch(`http://localhost:8080/api/v1/projectDelete/${projectId}` , {
+    fetch(`http://localhost:8080/api/v1/projectDelete/${projectId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -116,7 +83,7 @@ function deleteRow(element) {
 
             if (data.status == "Success") {
                 //строка проекта удаляется из таблицы
-                row.parentNode.removeChild(row); 
+                row.parentNode.removeChild(row);
 
             } else {
                 throw new Error('Project deletion went unsuccsessfull');

@@ -1,4 +1,4 @@
-(() => {
+function initDNDforColumns() {
   let currentDroppable = null;
   let placeholder;
   let isDraggingStarted = false;
@@ -82,39 +82,31 @@
     placeholder && placeholder.parentNode.removeChild(placeholder);
 
     //логика изменения индексов колонок
-    
+
     // Находим все элементы класса column
     var columns = document.querySelectorAll('.column');
-
     var newColumnIndex = 1;
-
     // Проходим по каждому элементу column
     columns.forEach(function (column) {
-      column.dataset.colId = newColumnIndex;
-      
-
+      column.dataset.colPos = newColumnIndex;
       // Находим все элементы класса board-item внутри текущей колонки
       var items = column.querySelectorAll('.board-item');
-
-      
       // Проходим по каждому элементу board-item
       items.forEach(function (item) {
         // Устанавливаем заново значение атрибута data-item-col-id у каждого элемента 
-        if(!item.classList.contains("emptySectionHiddenLesson")){
-          item.dataset.itemColId = column.dataset.colId;
+        if (!item.classList.contains("emptySectionHiddenLesson")) {
+          item.dataset.taskColNum = column.dataset.colPos;
         }
-        else{
-          item.onclick = function () { createTask(column.dataset.colId); }
+        else {
+          item.onclick = function () { createTask(column.dataset.colPos); }
         }
       });
       newColumnIndex += 1;
-
-
-
-
-
     });
-
+    let isColPosChanged = changeStatusPosition(movingElement.dataset.colId, movingElement.dataset.colPos);
+    if (!isColPosChanged){
+      return;
+    }
 
     movingElement.onmouseup = null;
     movingElement = null;
@@ -129,14 +121,41 @@
     movingElement.onmouseup = onMouseUp;
   };
 
-  window.addEventListener("load", () => {
-    for (const draggableElement of document.querySelectorAll(
-      ".board-column-header"
-    )) {
-      draggableElement.onmousedown = onMouseDown;
-      draggableElement.ondragstart = () => {
-        return false;
-      };
+
+  // let tempArr = document.querySelectorAll(".board-column-header");
+
+  for (const draggableElement of document.querySelectorAll(".board-column-header")) {
+    draggableElement.onmousedown = onMouseDown;
+    draggableElement.ondragstart = () => {
+      return false;
+    };
+  };
+
+
+  async function changeStatusPosition(colId, newColumnIndex) {
+    const response = await fetch(`http://localhost:8080/api/v1/editStatusPosition/${colId}/${newColumnIndex}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      }
+    })
+    const returnedStatus = await response.json();
+    if (returnedStatus.status == "Success") {
+      console.log('позиция статуса изменилась на сервере');
+      return true;
+    } else if (returnedStatus.status == "fail") {
+      console.log("не удалось изменить позицию статуса на сервере");
+      return false;
+    } else {
+      console.log("при удалении статуса что-то пошло совсем не так")
+      return false;
     }
-  });
-})();
+  
+  }
+}
+
+
+
+
+
+

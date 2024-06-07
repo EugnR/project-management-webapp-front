@@ -14,7 +14,7 @@ function createDiv() {
 
 }
 
-function createModal() {
+function createTaskModal() {
     // Создаем элементы модального окна
     var modal = document.createElement("div");
     modal.id = "myModal";

@@ -1,7 +1,7 @@
-function createModal() {
+function createTaskModal() {
     // Создаем элементы модального окна
     var modal = document.createElement("div");
-    modal.id = "myModal";
+    modal.id = "taskModal";
     modal.className = "modal";
 
     var modalContent = document.createElement("div");
@@ -60,7 +60,7 @@ function createModal() {
 
 function removeDiv(blockName) {
     // Находим контейнер
-    // var container = document.getElementById("myModal");
+    // var container = document.getElementById("taskModal");
     var container = document.getElementById(`${blockName}`);
     container.remove();
     // Проверяем, есть ли элементы для удаления
@@ -82,7 +82,7 @@ function removeDiv(blockName) {
 
 
 window.onclick = function (event) {
-    var modal = document.getElementById("myModal");
+    var modal = document.getElementById("taskModal");
     if (event.target == modal) {
         modal.remove();
     }
