@@ -138,7 +138,7 @@ const onMouseUp = () => {
     // Находим все элементы класса board-item внутри текущей колонки
     var items = column.querySelectorAll('.board-item:not(.emptySectionHiddenLesson)');
 
-    var newItemIndex = 1
+    var newItemIndex = 1;
     // Проходим по каждому элементу board-item
     items.forEach(function (item) {
       // Устанавливаем заново значение атрибута data-task-pos у каждого элемента с выводом в консоль
@@ -146,9 +146,9 @@ const onMouseUp = () => {
       newItemIndex += 1;
     });
   });
-  
+
   let isTaskPosChanged = changeTaskPosition(movingElement.dataset.taskId, movingElement.closest(".column").dataset.colId, movingElement.dataset.taskPos);
-  if (!isTaskPosChanged){
+  if (!isTaskPosChanged) {
     alert("перенести задачу не удалось, обновите страницу");
     return;
   }
@@ -240,20 +240,20 @@ async function createTask(columnPosition, columnId) {
 
 
   sendTaskToDB(newTaskName, newTaskDesc, columnId)
-        .then(newTaskId => {
-            if (newTaskId !== false) {
-              boardItem.setAttribute("data-task-id", newTaskId);
+    .then(newTaskId => {
+      if (newTaskId !== false) {
+        boardItem.setAttribute("data-task-id", newTaskId);
 
-            } else {
-                alert("Не удалось создать новую задачу");
-                return;
-            }
-        })
-        .catch(error => {
-            console.error( error);
-            alert("Не удалось создать новую задачу");
-            return;
-        });
+      } else {
+        alert("Не удалось создать новую задачу");
+        return;
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      alert("Не удалось создать новую задачу");
+      return;
+    });
 
 
 
@@ -316,23 +316,83 @@ function deleteTask(summoner) {
   outerDiv.removeChild(summoner.parentElement);
 }
 
+async function deleteTask(taskId) {
+  try {
+    let taskToDelete = document.querySelector(`.board-item[data-task-id="${taskId}"]`);
+    if (taskToDelete == null) {
+      alert("Удаляемая задача не найдена на доске");
+      return false;
+    }
+
+    const response = await fetch(`http://localhost:8080/api/v1/deleteTask/${taskId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      }
+    });
+
+    const returnedStatus = await response.json();
+    if (returnedStatus.status == "Success") {
+      console.log('задача удалилась на сервере');
+      //тут идёт удаление элемента с доски после удаления с сервера
+      //нужно добавить переустановку индексов столбцов и задач
+      let column = taskToDelete.closest(".column");
+      taskToDelete.remove();
+
+      // Находим все элементы класса column
+      var columns = document.querySelectorAll('.column');
+
+      // Проходим по  элементу column
+
+        // Находим все элементы класса board-item внутри  колонки
+        var items = column.querySelectorAll('.board-item:not(.emptySectionHiddenLesson)');
+
+        var newItemIndex = 1;
+        // Проходим по каждому элементу board-item
+        items.forEach(function (item) {
+          // Устанавливаем заново значение атрибута data-task-pos у каждого элемента с выводом в консоль
+          item.dataset.taskPos = newItemIndex;
+          newItemIndex += 1;
+        });
+      
+
+
+      return true;
+    } else if (returnedStatus.status == "fail") {
+      alert("Не удалось удалить статус. Сервер не нашёл и не удалил статус");
+      return false;
+    } else {
+      console.log("при удалении статуса что-то пошло совсем не так")
+      return false;
+    }
+
+
+
+  } catch (error) {
+    console.error('при обращении на сервер произошла ошибка', error);
+    return false;
+  }
+}
+
+
+
 async function changeTaskPosition(taskId, newStatusId, newPosition) {
   const response = await fetch(`http://localhost:8080/api/v1/editTaskPosition/${taskId}/${newStatusId}/${newPosition}`, {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-      }
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    }
   })
   const returnedStatus = await response.json();
   if (returnedStatus.status == "Success") {
-      console.log('позиция задачи изменилась на сервере');
-      return true;
+    console.log('позиция задачи изменилась на сервере');
+    return true;
   } else if (returnedStatus.status == "fail") {
-      console.log("не удалось изменить позицию задачи на сервере");
-      return false;
+    console.log("не удалось изменить позицию задачи на сервере");
+    return false;
   } else {
-      console.log("при удалении статуса что-то пошло совсем не так")
-      return false;
+    console.log("при удалении статуса что-то пошло совсем не так")
+    return false;
   }
 
 }
