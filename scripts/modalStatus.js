@@ -23,7 +23,7 @@ function createStatusModal(statusId, statusName) {
     var nameInput = document.createElement("input");
     nameInput.setAttribute("name", "newStatusName");
     nameInput.setAttribute("type", "text");
-    nameInput.setAttribute("placeholder", `Новое имя вместо ${statusName}`);
+    nameInput.setAttribute("placeholder", `Новое имя вместо "${statusName}"`);
     form.appendChild(nameInput);
 
 

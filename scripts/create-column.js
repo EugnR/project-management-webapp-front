@@ -215,7 +215,7 @@ function createColumn() {
 
 
 
-//отправить имя, номер позиции и id проекта
+//отправить имя и id проекта
 async function sendStatusToDB(statusName, statusProject) {
     try {
         const statusInfo = {
@@ -242,7 +242,7 @@ async function sendStatusToDB(statusName, statusProject) {
 
 
     } catch (error) {
-        console.error('There has been a problem with your fetch operation:', error);
+        console.error('При отправке статуса на сервер возникла ошибка:', error);
         return false;
     }
 }

@@ -14,13 +14,13 @@ function initDNDforItems() {
       .querySelectorAll(".board-column-content-wrapper")
       .forEach((section) => {
         //узнаём номер колонки
-        let col_number = section.closest(".column").dataset.colPos
+        let column = section.closest(".column");
 
         if (
           !section.querySelector(".board-item.emptySectionHiddenLesson")
         ) {
           const emptySectionHiddenLesson = document.createElement("div");
-          emptySectionHiddenLesson.setAttribute("data-task-col-num", col_number);
+          emptySectionHiddenLesson.setAttribute("data-task-col-num", column.dataset.colPos);
           emptySectionHiddenLesson.setAttribute('draggable', false);
 
           emptySectionHiddenLesson.classList.add(
@@ -30,7 +30,7 @@ function initDNDforItems() {
           emptySectionHiddenLesson.innerHTML = "+ Добавить";
           emptySectionHiddenLesson.style.textAlign = "center";
           //emptySectionHiddenLesson.setAttribute("onclick", "createTask('${col_number}')")
-          emptySectionHiddenLesson.onclick = function () { createTask(col_number); }
+          emptySectionHiddenLesson.onclick = function () { createTask(column.dataset.colPos, column.dataset.colId); }
           section.append(emptySectionHiddenLesson);
         }
       });
@@ -180,6 +180,8 @@ function initDNDforItems() {
     };
 
 
+
+    
 }
 
 

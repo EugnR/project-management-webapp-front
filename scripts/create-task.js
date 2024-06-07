@@ -4,48 +4,21 @@ let placeholder;
 let isDraggingStarted = false;
 let movingElement;
 
-
-
-// const processEmptySections = () => {
-//   // Create not visible .board-item in empty sections to dnd work with it too
-//   document
-//     .querySelectorAll(".board-column-content-wrapper")
-//     .forEach((section) => {
-//       if (
-//         //!section.querySelector(".board-item:not(.emptySectionHiddenLesson)")
-//         !section.querySelector(".board-item:not(.emptySectionHiddenLesson), .emptySectionHiddenLesson")
-//       ) {
-//         const emptySectionHiddenLesson = document.createElement("div");
-//         emptySectionHiddenLesson.classList.add(
-//           "board-item",
-//           "emptySectionHiddenLesson"
-//         );
-//         section.append(emptySectionHiddenLesson);
-//       }
-//       // else 
-//       // {
-//       //   const emptySectionHiddenLesson = section.querySelector(
-//       //     ".emptySectionHiddenLesson"
-//       //   );
-//       //   emptySectionHiddenLesson &&
-//       //     section.removeChild(emptySectionHiddenLesson);
-//       // }
-//     });
-// };
-
 //проверяет наличие кнопок добавления новых задач в солбцах, и добавляет их при отсутствии
 const processEmptySections = () => {
   // Create not visible .board-item in empty sections to dnd work with it too
   document
+    //проходимся по всем столбцам
     .querySelectorAll(".board-column-content-wrapper")
     .forEach((section) => {
-      let col_number = section.closest(".column").dataset.colPos
+      let column = section.closest(".column");
 
       if (
         !section.querySelector(".board-item.emptySectionHiddenLesson")
       ) {
+
         const emptySectionHiddenLesson = document.createElement("div");
-        emptySectionHiddenLesson.setAttribute("data-task-col-num", col_number);
+        emptySectionHiddenLesson.setAttribute("data-task-col-num", column.dataset.colPos);
         emptySectionHiddenLesson.setAttribute('draggable', false);
 
         emptySectionHiddenLesson.classList.add(
@@ -55,7 +28,7 @@ const processEmptySections = () => {
         emptySectionHiddenLesson.innerHTML = "+ Добавить";
         emptySectionHiddenLesson.style.textAlign = "center";
         //emptySectionHiddenLesson.setAttribute("onclick", "createTask('${col_number}')")
-        emptySectionHiddenLesson.onclick = function () { createTask(col_number); }
+        emptySectionHiddenLesson.onclick = function () { createTask(column.dataset.colPos, column.dataset.colId); }
         section.append(emptySectionHiddenLesson);
       }
     });
@@ -189,9 +162,9 @@ const onMouseDown = (event) => {
   document.addEventListener("mousemove", onMouseMove);
 
   horizontalScroll();
-  
 
-  
+
+
   movingElement.onmouseup = onMouseUp;
 };
 
@@ -210,11 +183,14 @@ window.addEventListener("load", () => {
 
 
 
-function createTask(col_number) {
+async function createTask(columnPosition, columnId) {
   //console.log(col_number);
   // Найти элемент с классом 'column' и атрибутом 'data-col-id' равным col_number
   // var column = document.querySelector('.column[data-col-id="1"]');
-  var column = document.querySelector(`.column[data-col-pos="${col_number}"]`);
+  let newTaskName = "Task";
+  let newTaskDesc = "Description";
+
+  var column = document.querySelector(`.column[data-col-pos="${columnPosition}"]`);
   //console.log(column);
   // Найти элемент с классом 'board-column-content-wrapper' внутри найденного элемента 'column'
   var contentWrapper = column.querySelector('.board-column-content-wrapper');
@@ -231,7 +207,7 @@ function createTask(col_number) {
   boardItem.classList.add('board-item');
   // Добавляем атрибуты data
   boardItem.setAttribute('data-task-pos', items.length + 1);
-  boardItem.setAttribute('data-task-col-num', col_number);
+  boardItem.setAttribute('data-task-col-num', columnPosition);
   // Добавляем атрибут draggable
   boardItem.setAttribute('draggable', true);
   boardItem.setAttribute('onclick', "createTaskModal()")
@@ -242,7 +218,7 @@ function createTask(col_number) {
   // Добавляем ему класс 'board-item-content'
   boardItemContent.classList.add('board-item-content');
   // Добавляем текст внутри элемента boardItemContent
-  boardItemContent.textContent = 'Untitled';
+  boardItemContent.textContent = newTaskName;
   //boardItemContent.setAttribute('onclick', "createTaskModal()")
 
   // Добавляем boardItemContent внутрь boardItem
@@ -253,7 +229,25 @@ function createTask(col_number) {
   // Добавляем ему класс 'board-item-description'
   boardItemDescription.classList.add('board-item-description');
   // Добавляем текст внутри элемента boardItemContent
-  boardItemDescription.textContent = 'Description';
+  boardItemDescription.textContent = newTaskDesc;
+
+
+
+  sendTaskToDB(newTaskName, newTaskDesc, columnId)
+        .then(newTaskId => {
+            if (newTaskId !== false) {
+              boardItem.setAttribute("data-task-id", newTaskId);
+
+            } else {
+                alert("Не удалось создать новую задачу");
+                return;
+            }
+        })
+        .catch(error => {
+            console.error( error);
+            alert("Не удалось создать новую задачу");
+            return;
+        });
 
 
 
@@ -276,6 +270,37 @@ function createTask(col_number) {
 }
 
 
+//отправить имя, номер позиции и id проекта
+async function sendTaskToDB(taskName, taskDesc, taskStatusId) {
+  try {
+    const taskInfo = {
+      name: taskName,
+      description: taskDesc,
+      statusId: taskStatusId
+    };
+
+    const response = await fetch('http://localhost:8080/api/v1/createTask', {
+      method: 'POST', // Метод POST
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(taskInfo) // Преобразование данных в JSON и установка в тело запроса
+    });
+
+    if (!response.ok) {
+      throw new Error('Сервер не вернул созданную задачу ' + response.statusText);
+    }
+
+    const returnedTask = await response.json();
+    let taskId = returnedTask.id
+    return taskId;
+
+
+  } catch (error) {
+    console.error('При отправке задачи на сервер возникла ошибка:', error);
+    return false;
+  }
+}
 
 
 
