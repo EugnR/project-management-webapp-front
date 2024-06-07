@@ -59,7 +59,7 @@ function buildBoard() {
                 columnHeader.className = 'board-column-header';
                 columnHeader.setAttribute('draggable', 'true');
                 columnHeader.textContent = `${status.name}`;
-                columnHeader.setAttribute('onclick', `createStatusModal(${status.id}, ${status.name})`);
+                columnHeader.setAttribute('onclick', `createStatusModal(${status.id}, '${status.name}')`);
 
                 const columnDeleter = document.createElement('div');
                 columnDeleter.setAttribute("onclick", `deleteColumn(${status.id})`);

@@ -16,27 +16,23 @@ function createStatusModal(statusId, statusName) {
     modalTitle.innerHTML = `Редактировать статус ${statusId}`;
 
     var form = document.createElement("form");
+    // form.setAttribute("action", `http://localhost:8080/api/v1/editStatusName/${statusId}`);
+    // form.setAttribute('method', 'POST');
 
 
     var nameInput = document.createElement("input");
+    nameInput.setAttribute("name", "newStatusName");
     nameInput.setAttribute("type", "text");
-    nameInput.setAttribute("placeholder", `${statusName}`);
-
+    nameInput.setAttribute("placeholder", `Новое имя вместо ${statusName}`);
     form.appendChild(nameInput);
-    form.appendChild(document.createElement("br")); // добавляем перенос строки
-    form.appendChild(document.createElement("br")); // добавляем перенос строки
 
 
-    var descriptionInput = document.createElement("textarea");
-    descriptionInput.setAttribute("placeholder", "Описание задачи");
-
-    form.appendChild(descriptionInput);
     form.appendChild(document.createElement("br")); // добавляем перенос строки
     form.appendChild(document.createElement("br")); // добавляем перенос строки
 
     var submitInput = document.createElement("input");
     submitInput.setAttribute("type", "submit");
-    submitInput.setAttribute("value", "Отправить");
+    submitInput.setAttribute("value", "Сохранить");
     form.appendChild(submitInput);
 
     modalContent.appendChild(closeButton);
@@ -47,9 +43,48 @@ function createStatusModal(statusId, statusName) {
     // Добавляем модальное окно в документ
     document.body.appendChild(modal);
 
+    // Функция для отправки данных формы
+    function sendFormData(event) {
+        event.preventDefault(); // Предотвращаем обновление страницы
+
+        // Собираем данные формы
+        var formData = new FormData(form);
+
+        // Отправляем данные с использованием Fetch API
+        fetch(`http://localhost:8080/api/v1/editStatusName/${statusId}`, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('что-то пошло не так при отправке нового имени статуса на сервер');
+                }
+            })
+            .then(data => {
+                if (data.status == "Success") {
+                    console.log("успешно изменено имя статуса на сервере");
+                } else if (data.status == "fail") {
+                    console.log("не удалось изменить имя статуса на сервере");
+                }
+                const col = document.querySelector(`.column[data-col-id = "${statusId}"]`);
+                const header = col.querySelector(`.board-column-header`);
+                header.textContent= `${nameInput.value}`;
+                removeDiv(modal.id);
+            })  
+            .catch(error => {
+                console.error(error);
+            });
+    }
+    // Назначаем функцию на событие submit формы
+    form.addEventListener('submit', sendFormData);
+
     // Отображаем модальное окно
     modal.style.display = "block";
 }
+
+
 
 function removeDiv(blockName) {
     // Находим контейнер

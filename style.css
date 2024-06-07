@@ -33,6 +33,7 @@ body {
 .board-column-header-wrapper {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   gap: 2%;
 }
 
@@ -62,6 +63,7 @@ body {
 .board-column-header {
   flex: 1;
   /* min-width: 100%; */
+  /* max-width: 100px; */
   border: 1px dotted #333;
   border-radius: 5px;
   user-select: none;
