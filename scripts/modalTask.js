@@ -52,9 +52,21 @@ function createTaskModal(taskId, taskName, taskDesc) {
     submitInput.setAttribute("value", "Сохранить");
     form.appendChild(submitInput);
 
+
+    var deleteInput = document.createElement("input");
+    deleteInput.className = "deleteModalButton";
+    deleteInput.setAttribute("type", "button");
+    deleteInput.setAttribute("value", "Удалить задачу");
+    deleteInput.onclick = () => {  
+        deleteTask(taskId);
+        removeDiv(modal.id); 
+    };
+    form.appendChild(deleteInput);
+
     modalContent.appendChild(closeButton);
     modalContent.appendChild(modalTitle);
     modalContent.appendChild(form);
+        
     modal.appendChild(modalContent);
 
     // Добавляем модальное окно в документ
@@ -132,6 +144,8 @@ function removeDiv(blockName) {
         alert("Нет элементов для удаления!");
     }
 }
+
+
 
 
 

@@ -312,10 +312,10 @@ async function sendTaskToDB(taskName, taskDesc, taskStatusId) {
 
 
 
-function deleteTask(summoner) {
-  let outerDiv = summoner.parentElement.parentElement;
-  outerDiv.removeChild(summoner.parentElement);
-}
+// function deleteTask(summoner) {
+//   let outerDiv = summoner.parentElement.parentElement;
+//   outerDiv.removeChild(summoner.parentElement);
+// }
 
 async function deleteTask(taskId) {
   try {
@@ -360,10 +360,10 @@ async function deleteTask(taskId) {
 
       return true;
     } else if (returnedStatus.status == "fail") {
-      alert("Не удалось удалить статус. Сервер не нашёл и не удалил статус");
+      alert("Не удалось удалить задачу. Сервер не нашёл и не удалил задачу");
       return false;
     } else {
-      console.log("при удалении статуса что-то пошло совсем не так")
+      console.log("при удалении задачи что-то пошло совсем не так")
       return false;
     }
 
