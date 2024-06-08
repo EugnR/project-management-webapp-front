@@ -19,6 +19,7 @@ function createTaskModal(taskId, taskName, taskDesc) {
 
 
     var nameInput = document.createElement("input");
+    nameInput.setAttribute("name", "newTaskName");
     nameInput.setAttribute("type", "text");
     nameInput.setAttribute("placeholder", "Название задачи");
     nameInput.setAttribute("value", `${taskName}`);
@@ -37,6 +38,7 @@ function createTaskModal(taskId, taskName, taskDesc) {
 
 
     var descriptionInput = document.createElement("textarea");
+    descriptionInput.setAttribute("name", "newTaskDesc");
     descriptionInput.setAttribute("placeholder", "Описание задачи");
     // descriptionInput.setAttribute("value", `${taskDesc}`);
     descriptionInput.textContent = taskDesc;
@@ -57,6 +59,60 @@ function createTaskModal(taskId, taskName, taskDesc) {
 
     // Добавляем модальное окно в документ
     document.body.appendChild(modal);
+
+    // Функция для отправки данных формы
+    function sendTaskFormData(event) {
+        event.preventDefault(); // Предотвращаем обновление страницы
+
+        // Собираем данные формы
+        var formData = new FormData(form);
+
+        // Отправляем данные с использованием Fetch API
+        fetch(`http://localhost:8080/api/v1/editTask/${taskId}`, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('что-то пошло не так при отправке данных задачи на сервер');
+                }
+            })
+            .then(data => {
+                if (data.status == "Success") {
+                    console.log("успешно изменено содержимое задачи на сервере");
+                } else if (data.status == "fail") {
+                    console.log("не удалось изменить содержимое задачи на сервере");
+                }
+
+                const redactedTask = document.querySelector(`.board-item[data-task-id = "${taskId}"]`);
+                const redactedTaskName = redactedTask.querySelector(`.board-item-content`);
+                // Проверка, является ли значение nameInput пустым
+                if (nameInput.value.trim() !== "") {
+                    redactedTaskName.textContent = `${nameInput.value}`;
+                } else {
+                    redactedTaskName.textContent = `Без названия`;
+                }
+                
+                const redactedTaskDesc = redactedTask.querySelector(`.board-item-description`);
+                // Проверка, является ли значение nameInput пустым
+                if (descriptionInput.value.trim() !== "") {
+                    redactedTaskDesc.textContent = `${descriptionInput.value}`;
+                } else {
+                    redactedTaskDesc.textContent = `Нет описания`;
+                }
+                // redactedTaskDesc.textContent = `${descriptionInput.value}`;
+                redactedTask.setAttribute('onclick', `createTaskModal(${taskId}, "${nameInput.value}", "${descriptionInput.value}")`);
+
+                removeDiv(modal.id);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    form.addEventListener('submit', sendTaskFormData);
 
     // Отображаем модальное окно
     modal.style.display = "block";
@@ -92,7 +148,7 @@ function removeDiv(blockName) {
 //     }
 // }
 
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target.classList.contains("modal")) {
         event.target.remove();
     }

@@ -44,7 +44,7 @@ function createStatusModal(statusId, statusName) {
     document.body.appendChild(modal);
 
     // Функция для отправки данных формы
-    function sendFormData(event) {
+    function sendStatusFormData(event) {
         event.preventDefault(); // Предотвращаем обновление страницы
 
         // Собираем данные формы
@@ -78,7 +78,7 @@ function createStatusModal(statusId, statusName) {
             });
     }
     // Назначаем функцию на событие submit формы
-    form.addEventListener('submit', sendFormData);
+    form.addEventListener('submit', sendStatusFormData);
 
     // Отображаем модальное окно
     modal.style.display = "block";

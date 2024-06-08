@@ -243,7 +243,7 @@ async function createTask(columnPosition, columnId) {
     .then(newTaskId => {
       if (newTaskId !== false) {
         boardItem.setAttribute("data-task-id", newTaskId);
-        boardItem.setAttribute('onclick', `createTaskModal(${newTaskId}, ${newTaskName}, ${newTaskDesc})`);
+        boardItem.setAttribute('onclick', `createTaskModal(${newTaskId}, "${newTaskName}", "${newTaskDesc}")`);
 
       } else {
         alert("Не удалось создать новую задачу");
