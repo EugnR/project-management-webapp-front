@@ -112,7 +112,7 @@ function buildBoard() {
                                 boardItem.setAttribute('data-task-col-num', status.position);
                                 boardItem.setAttribute('data-task-id', task.id);
                                 boardItem.setAttribute('draggable', 'true');
-                                boardItem.setAttribute('onclick', 'createTaskModal()');
+                                boardItem.setAttribute('onclick', `createTaskModal(${task.id}, "${task.name}", "${task.description}")`);
 
                                 const boardItemContent = document.createElement('div');
                                 boardItemContent.className = 'board-item-content';

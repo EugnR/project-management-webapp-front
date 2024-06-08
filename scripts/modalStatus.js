@@ -109,12 +109,12 @@ function removeDiv(blockName) {
 
 
 
-window.onclick = function (event) {
-    var modal = document.getElementById("statusModal");
-    if (event.target == modal) {
-        modal.remove();
-    }
-}
+// window.onclick = function (event) {
+//     var modal = document.getElementById("statusModal");
+//     if (event.target == modal) {
+//         modal.remove();
+//     }
+// }
 
 
 

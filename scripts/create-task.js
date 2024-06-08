@@ -216,8 +216,8 @@ async function createTask(columnPosition, columnId) {
   boardItem.setAttribute('data-task-col-num', columnPosition);
   // Добавляем атрибут draggable
   boardItem.setAttribute('draggable', true);
-  boardItem.setAttribute('onclick', "createTaskModal()")
-  //boardItem.ondblclick = function() {createTaskModal()}
+  // boardItem.setAttribute('onclick', "createTaskModal()");
+  
 
   // Создаем элемент div для контента внутри boardItem
   var boardItemContent = document.createElement('div');
@@ -225,7 +225,7 @@ async function createTask(columnPosition, columnId) {
   boardItemContent.classList.add('board-item-content');
   // Добавляем текст внутри элемента boardItemContent
   boardItemContent.textContent = newTaskName;
-  //boardItemContent.setAttribute('onclick', "createTaskModal()")
+
 
   // Добавляем boardItemContent внутрь boardItem
   boardItem.appendChild(boardItemContent);
@@ -243,6 +243,7 @@ async function createTask(columnPosition, columnId) {
     .then(newTaskId => {
       if (newTaskId !== false) {
         boardItem.setAttribute("data-task-id", newTaskId);
+        boardItem.setAttribute('onclick', `createTaskModal(${newTaskId}, ${newTaskName}, ${newTaskDesc})`);
 
       } else {
         alert("Не удалось создать новую задачу");
