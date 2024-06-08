@@ -40,7 +40,7 @@ body {
 .board-column-deleter{
   display: flex;
   flex: 0.1;
-  border: 1px dotted red;
+  border: 1px dotted black;
   border-radius: 5px;
   user-select: none;
   -moz-user-select: none;
@@ -53,12 +53,13 @@ body {
   background-repeat: no-repeat; */
 }
 .board-column-deleter:hover{
-  border: 3px dotted red;
+  border: 1px solid red;
 }
 .board-column-deleter-img{
   max-width: 25px;
   /* object-fit: contain ; */
 }
+
 
 .board-column-header {
   flex: 1;
