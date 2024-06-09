@@ -40,7 +40,7 @@ body {
 .board-column-deleter{
   display: flex;
   flex: 0.1;
-  border: 1px dotted red;
+  border: 1px dotted black;
   border-radius: 5px;
   user-select: none;
   -moz-user-select: none;
@@ -53,12 +53,13 @@ body {
   background-repeat: no-repeat; */
 }
 .board-column-deleter:hover{
-  border: 3px dotted red;
+  border: 1px solid red;
 }
 .board-column-deleter-img{
   max-width: 25px;
   /* object-fit: contain ; */
 }
+
 
 .board-column-header {
   flex: 1;
@@ -100,6 +101,7 @@ body {
   height: auto; /* автоматическая высота блока */
 
 }
+
 
 
 .emptySectionHiddenLesson {
@@ -196,6 +198,7 @@ body {
 
 
 .close {
+  max-width: 5%;
   color: #aaa;
   float: right;
   font-size: 28px;
@@ -207,6 +210,10 @@ body {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.deleteModalButton{
+  float: right;
 }
 
 /* стили для страницы выбора проектов */

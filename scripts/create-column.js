@@ -98,14 +98,15 @@ const onMouseUpColumn = () => {
                 item.dataset.taskColNum = column.dataset.colPos;
             }
             else {
-                item.onclick = function () { createTask(column.dataset.colPos); }
+                // item.onclick = function () { createTask(column.dataset.colPos); }
+                item.setAttribute("onclick", `createTask(${column.dataset.colPos}, ${column.dataset.colId})`)
             }
         });
         newColumnIndex += 1;
     });
     let isColPosChanged = changeStatusPosition(movingElementColumn.dataset.colId, movingElementColumn.dataset.colPos);
-    if (!isColPosChanged){
-      return;
+    if (!isColPosChanged) {
+        return;
     }
 
     movingElementColumn.onmouseup = null;
@@ -215,7 +216,7 @@ function createColumn() {
 
 
 
-//отправить имя, номер позиции и id проекта
+//отправить имя и id проекта
 async function sendStatusToDB(statusName, statusProject) {
     try {
         const statusInfo = {
@@ -242,7 +243,7 @@ async function sendStatusToDB(statusName, statusProject) {
 
 
     } catch (error) {
-        console.error('There has been a problem with your fetch operation:', error);
+        console.error('При отправке статуса на сервер возникла ошибка:', error);
         return false;
     }
 }
@@ -274,6 +275,26 @@ async function deleteColumn(statusId) {
             //нужно добавить переустановку индексов столбцов и задач
             columnToDelete.remove();
 
+            // Находим все элементы класса column
+            var columns = document.querySelectorAll('.column');
+            var newColumnIndex = 1;
+            // Проходим по каждому элементу column
+            columns.forEach(function (column) {
+                column.dataset.colPos = newColumnIndex;
+                // Находим все элементы класса board-item внутри текущей колонки
+                var items = column.querySelectorAll('.board-item');
+                // Проходим по каждому элементу board-item
+                items.forEach(function (item) {
+                    // Устанавливаем заново значение атрибута data-item-col-id у каждого элемента 
+                    if (!item.classList.contains("emptySectionHiddenLesson")) {
+                        item.dataset.taskColNum = column.dataset.colPos;
+                    }
+                    else {
+                        item.setAttribute("onclick", `createTask(${column.dataset.colPos}, ${column.dataset.colId})`)
+                    }
+                });
+                newColumnIndex += 1;
+            });
 
 
             return true;
@@ -308,7 +329,7 @@ async function changeStatusPosition(colId, newColumnIndex) {
         console.log("не удалось изменить позицию статуса на сервере");
         return false;
     } else {
-        console.log("при удалении статуса что-то пошло совсем не так")
+        console.log("при перемещении задачи что-то пошло совсем не так")
         return false;
     }
 

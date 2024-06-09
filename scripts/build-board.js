@@ -93,6 +93,9 @@ function buildBoard() {
                     })
                     .then(data => {
                         tasksList = data;
+                        // Сортируем statusesList по ключу position
+                        tasksList.sort((a, b) => a.position - b.position);
+                        console.log("Отсортированные задачи: ", tasksList);
 
                         if (!Array.isArray(tasksList)) {
                             console.error('Data with tasks is not an array:', tasksList);
@@ -107,8 +110,9 @@ function buildBoard() {
                                 boardItem.className = 'board-item';
                                 boardItem.setAttribute('data-task-pos', task.position);
                                 boardItem.setAttribute('data-task-col-num', status.position);
+                                boardItem.setAttribute('data-task-id', task.id);
                                 boardItem.setAttribute('draggable', 'true');
-                                boardItem.setAttribute('onclick', 'createTaskModal()');
+                                boardItem.setAttribute('onclick', `createTaskModal(${task.id}, "${task.name}", "${task.description}")`);
 
                                 const boardItemContent = document.createElement('div');
                                 boardItemContent.className = 'board-item-content';

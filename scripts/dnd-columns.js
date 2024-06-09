@@ -98,7 +98,7 @@ function initDNDforColumns() {
           item.dataset.taskColNum = column.dataset.colPos;
         }
         else {
-          item.onclick = function () { createTask(column.dataset.colPos); }
+          item.onclick = function () { createTask(column.dataset.colPos, column.dataset.colId); }
         }
       });
       newColumnIndex += 1;

@@ -14,13 +14,13 @@ function initDNDforItems() {
       .querySelectorAll(".board-column-content-wrapper")
       .forEach((section) => {
         //узнаём номер колонки
-        let col_number = section.closest(".column").dataset.colPos
+        let column = section.closest(".column");
 
         if (
           !section.querySelector(".board-item.emptySectionHiddenLesson")
         ) {
           const emptySectionHiddenLesson = document.createElement("div");
-          emptySectionHiddenLesson.setAttribute("data-task-col-num", col_number);
+          emptySectionHiddenLesson.setAttribute("data-task-col-num", column.dataset.colPos);
           emptySectionHiddenLesson.setAttribute('draggable', false);
 
           emptySectionHiddenLesson.classList.add(
@@ -30,7 +30,8 @@ function initDNDforItems() {
           emptySectionHiddenLesson.innerHTML = "+ Добавить";
           emptySectionHiddenLesson.style.textAlign = "center";
           //emptySectionHiddenLesson.setAttribute("onclick", "createTask('${col_number}')")
-          emptySectionHiddenLesson.onclick = function () { createTask(col_number); }
+          // emptySectionHiddenLesson.onclick = function () { createTask(column.dataset.colPos, column.dataset.colId); }
+          emptySectionHiddenLesson.setAttribute("onclick", `createTask(${column.dataset.colPos}, ${column.dataset.colId})`);
           section.append(emptySectionHiddenLesson);
         }
       });
@@ -139,19 +140,19 @@ function initDNDforItems() {
     columns.forEach(function (column) {
       // Находим все элементы класса board-item внутри текущей колонки
       var items = column.querySelectorAll('.board-item:not(.emptySectionHiddenLesson)');
-
       var newItemIndex = 1
       // Проходим по каждому элементу board-item
       items.forEach(function (item) {
         // Устанавливаем заново значение атрибута data-task-pos у каждого элемента с выводом в консоль
         item.dataset.taskPos = newItemIndex;
-
-        
-
         newItemIndex += 1;
       });
     });
-    //
+    let isTaskPosChanged = changeTaskPosition(movingElement.dataset.taskId, movingElement.closest(".column").dataset.colId, movingElement.dataset.taskPos);
+    if (!isTaskPosChanged) {
+      alert("перенести задачу не удалось, обновите страницу");
+      return;
+    }
 
     movingElement.onmouseup = null;
     movingElement = null;
@@ -170,14 +171,16 @@ function initDNDforItems() {
     movingElement.onmouseup = onMouseUp;
   };
 
-    processEmptySections();
-    // for (const draggableElement of document.querySelectorAll(".board-item")) {
-    for (const draggableElement of document.querySelectorAll(".board-item:not(.emptySectionHiddenLesson)")) {
-      draggableElement.onmousedown = onMouseDown;
-      draggableElement.ondragstart = () => {
-        return false;
-      };
+  processEmptySections();
+  // for (const draggableElement of document.querySelectorAll(".board-item")) {
+  for (const draggableElement of document.querySelectorAll(".board-item:not(.emptySectionHiddenLesson)")) {
+    draggableElement.onmousedown = onMouseDown;
+    draggableElement.ondragstart = () => {
+      return false;
     };
+  };
+
+
 
 
 }

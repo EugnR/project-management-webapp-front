@@ -4,48 +4,21 @@ let placeholder;
 let isDraggingStarted = false;
 let movingElement;
 
-
-
-// const processEmptySections = () => {
-//   // Create not visible .board-item in empty sections to dnd work with it too
-//   document
-//     .querySelectorAll(".board-column-content-wrapper")
-//     .forEach((section) => {
-//       if (
-//         //!section.querySelector(".board-item:not(.emptySectionHiddenLesson)")
-//         !section.querySelector(".board-item:not(.emptySectionHiddenLesson), .emptySectionHiddenLesson")
-//       ) {
-//         const emptySectionHiddenLesson = document.createElement("div");
-//         emptySectionHiddenLesson.classList.add(
-//           "board-item",
-//           "emptySectionHiddenLesson"
-//         );
-//         section.append(emptySectionHiddenLesson);
-//       }
-//       // else 
-//       // {
-//       //   const emptySectionHiddenLesson = section.querySelector(
-//       //     ".emptySectionHiddenLesson"
-//       //   );
-//       //   emptySectionHiddenLesson &&
-//       //     section.removeChild(emptySectionHiddenLesson);
-//       // }
-//     });
-// };
-
 //проверяет наличие кнопок добавления новых задач в солбцах, и добавляет их при отсутствии
 const processEmptySections = () => {
   // Create not visible .board-item in empty sections to dnd work with it too
   document
+    //проходимся по всем столбцам
     .querySelectorAll(".board-column-content-wrapper")
     .forEach((section) => {
-      let col_number = section.closest(".column").dataset.colPos
+      let column = section.closest(".column");
 
       if (
         !section.querySelector(".board-item.emptySectionHiddenLesson")
       ) {
+
         const emptySectionHiddenLesson = document.createElement("div");
-        emptySectionHiddenLesson.setAttribute("data-task-col-num", col_number);
+        emptySectionHiddenLesson.setAttribute("data-task-col-num", column.dataset.colPos);
         emptySectionHiddenLesson.setAttribute('draggable', false);
 
         emptySectionHiddenLesson.classList.add(
@@ -55,7 +28,7 @@ const processEmptySections = () => {
         emptySectionHiddenLesson.innerHTML = "+ Добавить";
         emptySectionHiddenLesson.style.textAlign = "center";
         //emptySectionHiddenLesson.setAttribute("onclick", "createTask('${col_number}')")
-        emptySectionHiddenLesson.onclick = function () { createTask(col_number); }
+        emptySectionHiddenLesson.onclick = function () { createTask(column.dataset.colPos, column.dataset.colId); }
         section.append(emptySectionHiddenLesson);
       }
     });
@@ -165,7 +138,7 @@ const onMouseUp = () => {
     // Находим все элементы класса board-item внутри текущей колонки
     var items = column.querySelectorAll('.board-item:not(.emptySectionHiddenLesson)');
 
-    var newItemIndex = 1
+    var newItemIndex = 1;
     // Проходим по каждому элементу board-item
     items.forEach(function (item) {
       // Устанавливаем заново значение атрибута data-task-pos у каждого элемента с выводом в консоль
@@ -173,7 +146,13 @@ const onMouseUp = () => {
       newItemIndex += 1;
     });
   });
-  //
+
+  let isTaskPosChanged = changeTaskPosition(movingElement.dataset.taskId, movingElement.closest(".column").dataset.colId, movingElement.dataset.taskPos);
+  if (!isTaskPosChanged) {
+    alert("перенести задачу не удалось, обновите страницу");
+    return;
+  }
+
 
   movingElement.onmouseup = null;
   movingElement = null;
@@ -189,9 +168,9 @@ const onMouseDown = (event) => {
   document.addEventListener("mousemove", onMouseMove);
 
   horizontalScroll();
-  
 
-  
+
+
   movingElement.onmouseup = onMouseUp;
 };
 
@@ -210,11 +189,14 @@ window.addEventListener("load", () => {
 
 
 
-function createTask(col_number) {
+async function createTask(columnPosition, columnId) {
   //console.log(col_number);
   // Найти элемент с классом 'column' и атрибутом 'data-col-id' равным col_number
   // var column = document.querySelector('.column[data-col-id="1"]');
-  var column = document.querySelector(`.column[data-col-pos="${col_number}"]`);
+  let newTaskName = "Task";
+  let newTaskDesc = "Description";
+
+  var column = document.querySelector(`.column[data-col-pos="${columnPosition}"]`);
   //console.log(column);
   // Найти элемент с классом 'board-column-content-wrapper' внутри найденного элемента 'column'
   var contentWrapper = column.querySelector('.board-column-content-wrapper');
@@ -231,19 +213,19 @@ function createTask(col_number) {
   boardItem.classList.add('board-item');
   // Добавляем атрибуты data
   boardItem.setAttribute('data-task-pos', items.length + 1);
-  boardItem.setAttribute('data-task-col-num', col_number);
+  boardItem.setAttribute('data-task-col-num', columnPosition);
   // Добавляем атрибут draggable
   boardItem.setAttribute('draggable', true);
-  boardItem.setAttribute('onclick', "createTaskModal()")
-  //boardItem.ondblclick = function() {createTaskModal()}
+  // boardItem.setAttribute('onclick', "createTaskModal()");
+  
 
   // Создаем элемент div для контента внутри boardItem
   var boardItemContent = document.createElement('div');
   // Добавляем ему класс 'board-item-content'
   boardItemContent.classList.add('board-item-content');
   // Добавляем текст внутри элемента boardItemContent
-  boardItemContent.textContent = 'Untitled';
-  //boardItemContent.setAttribute('onclick', "createTaskModal()")
+  boardItemContent.textContent = newTaskName;
+
 
   // Добавляем boardItemContent внутрь boardItem
   boardItem.appendChild(boardItemContent);
@@ -253,7 +235,26 @@ function createTask(col_number) {
   // Добавляем ему класс 'board-item-description'
   boardItemDescription.classList.add('board-item-description');
   // Добавляем текст внутри элемента boardItemContent
-  boardItemDescription.textContent = 'Description';
+  boardItemDescription.textContent = newTaskDesc;
+
+
+
+  sendTaskToDB(newTaskName, newTaskDesc, columnId)
+    .then(newTaskId => {
+      if (newTaskId !== false) {
+        boardItem.setAttribute("data-task-id", newTaskId);
+        boardItem.setAttribute('onclick', `createTaskModal(${newTaskId}, "${newTaskName}", "${newTaskDesc}")`);
+
+      } else {
+        alert("Не удалось создать новую задачу");
+        return;
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      alert("Не удалось создать новую задачу");
+      return;
+    });
 
 
 
@@ -276,13 +277,123 @@ function createTask(col_number) {
 }
 
 
+//отправить имя, номер позиции и id проекта
+async function sendTaskToDB(taskName, taskDesc, taskStatusId) {
+  try {
+    const taskInfo = {
+      name: taskName,
+      description: taskDesc,
+      statusId: taskStatusId
+    };
+
+    const response = await fetch('http://localhost:8080/api/v1/createTask', {
+      method: 'POST', // Метод POST
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(taskInfo) // Преобразование данных в JSON и установка в тело запроса
+    });
+
+    if (!response.ok) {
+      throw new Error('Сервер не вернул созданную задачу ' + response.statusText);
+    }
+
+    const returnedTask = await response.json();
+    let taskId = returnedTask.id
+    return taskId;
 
 
-
-
-function deleteTask(summoner) {
-  let outerDiv = summoner.parentElement.parentElement;
-  outerDiv.removeChild(summoner.parentElement);
+  } catch (error) {
+    console.error('При отправке задачи на сервер возникла ошибка:', error);
+    return false;
+  }
 }
 
 
+
+
+// function deleteTask(summoner) {
+//   let outerDiv = summoner.parentElement.parentElement;
+//   outerDiv.removeChild(summoner.parentElement);
+// }
+
+async function deleteTask(taskId) {
+  try {
+    let taskToDelete = document.querySelector(`.board-item[data-task-id="${taskId}"]`);
+    if (taskToDelete == null) {
+      alert("Удаляемая задача не найдена на доске");
+      return false;
+    }
+
+    const response = await fetch(`http://localhost:8080/api/v1/deleteTask/${taskId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      }
+    });
+
+    const returnedStatus = await response.json();
+    if (returnedStatus.status == "Success") {
+      console.log('задача удалилась на сервере');
+      //тут идёт удаление элемента с доски после удаления с сервера
+      //нужно добавить переустановку индексов столбцов и задач
+      let column = taskToDelete.closest(".column");
+      taskToDelete.remove();
+
+      // Находим все элементы класса column
+      var columns = document.querySelectorAll('.column');
+
+      // Проходим по  элементу column
+
+        // Находим все элементы класса board-item внутри  колонки
+        var items = column.querySelectorAll('.board-item:not(.emptySectionHiddenLesson)');
+
+        var newItemIndex = 1;
+        // Проходим по каждому элементу board-item
+        items.forEach(function (item) {
+          // Устанавливаем заново значение атрибута data-task-pos у каждого элемента с выводом в консоль
+          item.dataset.taskPos = newItemIndex;
+          newItemIndex += 1;
+        });
+      
+
+
+      return true;
+    } else if (returnedStatus.status == "fail") {
+      alert("Не удалось удалить задачу. Сервер не нашёл и не удалил задачу");
+      return false;
+    } else {
+      console.log("при удалении задачи что-то пошло совсем не так")
+      return false;
+    }
+
+
+
+  } catch (error) {
+    console.error('при обращении на сервер произошла ошибка', error);
+    return false;
+  }
+}
+
+
+
+async function changeTaskPosition(taskId, newStatusId, newPosition) {
+  const response = await fetch(`http://localhost:8080/api/v1/editTaskPosition/${taskId}/${newStatusId}/${newPosition}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    }
+  })
+  const returnedStatus = await response.json();
+  if (returnedStatus.status == "Success") {
+    console.log('позиция задачи изменилась на сервере');
+    return true;
+  } else if (returnedStatus.status == "fail") {
+    console.log("не удалось изменить позицию задачи на сервере");
+    return false;
+  } else {
+    console.log("при удалении статуса что-то пошло совсем не так")
+    return false;
+  }
+
+}

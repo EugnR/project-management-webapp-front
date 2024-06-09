@@ -23,7 +23,7 @@ function createStatusModal(statusId, statusName) {
     var nameInput = document.createElement("input");
     nameInput.setAttribute("name", "newStatusName");
     nameInput.setAttribute("type", "text");
-    nameInput.setAttribute("placeholder", `Новое имя вместо ${statusName}`);
+    nameInput.setAttribute("placeholder", `Новое имя вместо "${statusName}"`);
     form.appendChild(nameInput);
 
 
@@ -44,7 +44,7 @@ function createStatusModal(statusId, statusName) {
     document.body.appendChild(modal);
 
     // Функция для отправки данных формы
-    function sendFormData(event) {
+    function sendStatusFormData(event) {
         event.preventDefault(); // Предотвращаем обновление страницы
 
         // Собираем данные формы
@@ -78,7 +78,7 @@ function createStatusModal(statusId, statusName) {
             });
     }
     // Назначаем функцию на событие submit формы
-    form.addEventListener('submit', sendFormData);
+    form.addEventListener('submit', sendStatusFormData);
 
     // Отображаем модальное окно
     modal.style.display = "block";
@@ -109,12 +109,12 @@ function removeDiv(blockName) {
 
 
 
-window.onclick = function (event) {
-    var modal = document.getElementById("statusModal");
-    if (event.target == modal) {
-        modal.remove();
-    }
-}
+// window.onclick = function (event) {
+//     var modal = document.getElementById("statusModal");
+//     if (event.target == modal) {
+//         modal.remove();
+//     }
+// }
 
 
 
