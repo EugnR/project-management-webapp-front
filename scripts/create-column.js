@@ -99,7 +99,7 @@ const onMouseUpColumn = () => {
             }
             else {
                 // item.onclick = function () { createTask(column.dataset.colPos); }
-                item.setAttribute("onclick", `createTask(${column.dataset.colPos})`)
+                item.setAttribute("onclick", `createTask(${column.dataset.colPos}, ${column.dataset.colId})`)
             }
         });
         newColumnIndex += 1;
@@ -290,7 +290,7 @@ async function deleteColumn(statusId) {
                         item.dataset.taskColNum = column.dataset.colPos;
                     }
                     else {
-                        item.setAttribute("onclick", `createTask(${column.dataset.colPos})`)
+                        item.setAttribute("onclick", `createTask(${column.dataset.colPos}, ${column.dataset.colId})`)
                     }
                 });
                 newColumnIndex += 1;
