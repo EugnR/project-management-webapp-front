@@ -167,7 +167,7 @@ const onMouseDown = (event) => {
   initialMovingElementPageXY.set(movingElement);
   document.addEventListener("mousemove", onMouseMove);
 
-  horizontalScroll();
+  // horizontalScroll();
 
 
 

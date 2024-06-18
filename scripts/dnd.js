@@ -1,4 +1,4 @@
-// Initial pageX and pageY of movingElement, at the moment the drag begins
+// Изначальные pageX и pageY элемента movingElement в момент начала перетаскивания
 const initialMovingElementPageXY = {
   x: 0,
   y: 0,
@@ -9,8 +9,7 @@ const initialMovingElementPageXY = {
   },
 };
 
-// Shifts allowing drag for any point of movingElement.
-// Stores x and y shifts from top left corner of movingElement to the point of drag
+// Хранит смещения по x и y относительно левого верхнего угла элемента movingElement до точки переноса
 const shifts = {
   shiftX: 0,
   shiftY: 0,
@@ -21,7 +20,7 @@ const shifts = {
 };
 
 const moveAt = (element, pageX, pageY) => {
-  // Moves element to pageX and pageY coordinates using fast CSS transform method
+  // Передвигает element на координаты pageX и pageY используя метод CSS transform 
   element.style.transform = `translate(${
     pageX - initialMovingElementPageXY.x - shifts.shiftX
   }px, ${
@@ -30,7 +29,7 @@ const moveAt = (element, pageX, pageY) => {
 };
 
 const getElementCoordinates = (node, searchCoordsBy) => {
-  // Returns left and top coordinates of node
+  // возвращает left и top координаты node
   const rect = node.getBoundingClientRect();
   return {
     top:
@@ -42,7 +41,7 @@ const getElementCoordinates = (node, searchCoordsBy) => {
 };
 
 const isAbove = (nodeA, nodeB) => {
-  // Returns the bounding rectangle of nodes
+  // возвращает координаты прямоугольника, содержащего node
   const rectA = nodeA.getBoundingClientRect();
   const rectB = nodeB.getBoundingClientRect();
 
@@ -50,7 +49,7 @@ const isAbove = (nodeA, nodeB) => {
 };
 
 const isRight = (nodeA, nodeB) => {
-  // Get the bounding rectangle of nodes
+  // возвращает координаты прямоугольника, содержащего node
   const rectA = nodeA.getBoundingClientRect();
   const rectB = nodeB.getBoundingClientRect();
 
@@ -58,7 +57,7 @@ const isRight = (nodeA, nodeB) => {
 };
 
 const getElementBelow = (movingElement, searchCoordsBy) => {
-  // Get element below movingElement now
+  // получает элемент находящийся под movingElement в моменте
   const movingElementCenter = getElementCoordinates(
     movingElement,
     searchCoordsBy

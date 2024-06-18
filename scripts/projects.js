@@ -1,4 +1,3 @@
-// ПОТОМ УДАЛИТЬ
 
 document.addEventListener('DOMContentLoaded', (event) => {
     loadProjects();
@@ -47,10 +46,6 @@ function createRow(project) {
         <td><span class="delete-link" onclick="deleteRow(this)" >Удалить</span></td>
     `;
 
-    // <td>${project.name}</td>
-    /* <td><span class="to-tasks" href="index.html?project=${project.id}">${project.name}</span></td> */
-    // <button onclick="window.location.href='page2.html';">Перейти на страницу 2</button>
-
 
     tbody.appendChild(row);
 }
@@ -59,11 +54,8 @@ function deleteRow(element) {
     const row = element.parentNode.parentNode;          //строка tr, в которой находится кнопка
     const projectId = row.querySelector('td').textContent;
     console.log("Id удаляемого проекта в ячейке: ", row.querySelector('td'));
-    // row.parentNode.removeChild(row);                    //таблица tbody, в которой находится строка
 
-
-
-    fetch(`http://localhost:8080/api/v1/projectDelete/${projectId}`, {
+    fetch(`http://localhost:8080/api/v1/deleteProject/${projectId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -73,24 +65,19 @@ function deleteRow(element) {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            // console.log(response.json());
             return response.json();
         })
         .then(data => {
-            // Handle successful response from server
-            console.log(data.status);
-            console.log(data.id);
-
             if (data.status == "Success") {
                 //строка проекта удаляется из таблицы
                 row.parentNode.removeChild(row);
 
             } else {
-                throw new Error('Project deletion went unsuccsessfull');
+                throw new Error('Сервер не удалил статус');
             }
         })
         .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
+            console.error('Произошла ошибка во время запроса удаления проекта:', error);
         });
 
 }
@@ -180,10 +167,10 @@ function createProjectModal() {
 
         const project = {
             name: projectName,
-            user: projectUser
+            userId: projectUser
         };
 
-        fetch("http://localhost:8080/api/v1/projectCreate", {
+        fetch("http://localhost:8080/api/v1/createProject", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -198,7 +185,9 @@ function createProjectModal() {
             })
             .then(data => {
                 console.log('Success sending project data: ', data);
+                loadProjects();
                 alert('Проект создан!');
+                
             })
             .catch((error) => {
                 console.error('Error while sending registration data: ', error);
@@ -207,7 +196,7 @@ function createProjectModal() {
             });
 
         removeDiv(modal.id);
-        loadProjects();
+        
     })
 }
 

@@ -8,8 +8,6 @@
   --column-width: 200px;
 }
 
-
-
 body {
   padding: 30px;
   color: #333;
@@ -22,8 +20,9 @@ body {
 .column {
   background-color: white;
   width: var(--column-width);
-  border: 1px dotted #ccc;
-  border-radius: 5px;
+  border-left: 1px dotted #ccc;
+  border-right: 1px dotted #ccc;
+
   margin-right: 20px;
   padding: 5px;
   height: auto;
@@ -48,9 +47,7 @@ body {
   -ms-user-select: none;
   font-size: 1.2em;
   margin-bottom: 0.5em;
-  /* background-image: url('../images/trashbin.svg');
-  background-size: contain;
-  background-repeat: no-repeat; */
+
 }
 .board-column-deleter:hover{
   border: 1px solid red;

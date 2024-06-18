@@ -19,7 +19,7 @@ function createRegistrationModal() {
     modalTitle.innerHTML = "Регистрация";
     modalContent.appendChild(modalTitle);
 
-    //var form = document.createElement("form");
+    var form = document.createElement("form");
 
 
     var nameInput = document.createElement("input");
@@ -28,9 +28,9 @@ function createRegistrationModal() {
     nameInput.setAttribute("type", "text");
     nameInput.setAttribute("placeholder", "Имя пользователя");
 
-    modalContent.appendChild(nameInput);
-    modalContent.appendChild(document.createElement("br")); // добавляем перенос строки
-    modalContent.appendChild(document.createElement("br")); // добавляем перенос строки
+   form.appendChild(nameInput);
+   form.appendChild(document.createElement("br")); 
+   form.appendChild(document.createElement("br")); 
 
 
     var emailInput = document.createElement("input");
@@ -39,9 +39,9 @@ function createRegistrationModal() {
     emailInput.setAttribute("type", "text");
     emailInput.setAttribute("placeholder", "Email");
 
-    modalContent.appendChild(emailInput);
-    modalContent.appendChild(document.createElement("br")); // добавляем перенос строки
-    modalContent.appendChild(document.createElement("br")); // добавляем перенос строки
+    form.appendChild(emailInput);
+    form.appendChild(document.createElement("br")); 
+    form.appendChild(document.createElement("br")); 
 
 
     var passInput = document.createElement("input");
@@ -50,26 +50,17 @@ function createRegistrationModal() {
     passInput.setAttribute("type", "text");
     passInput.setAttribute("placeholder", "Пароль");
 
-    modalContent.appendChild(passInput);
-    modalContent.appendChild(document.createElement("br")); // добавляем перенос строки
-    modalContent.appendChild(document.createElement("br")); // добавляем перенос строки
-
-
-    var submitButton = document.createElement("button");
+    form.appendChild(passInput);
+    form.appendChild(document.createElement("br")); 
+    form.appendChild(document.createElement("br"));    
+    
+    var submitButton = document.createElement("input");
     submitButton.setAttribute("id", "registrationButton")
-    submitButton.innerHTML = "Зарегистрироваться";
-    // submitButton.setAttribute("value", "Отправить");
-    modalContent.appendChild(submitButton);
-
-    // var testButton = document.createElement("button");
-    // testButton.innerHTML = "тестовая кнопка";
-    // form.appendChild(testButton);
-
-
-
-
-
-    // modalContent.appendChild(form);
+    submitButton.setAttribute("type", "button");
+    submitButton.setAttribute("value", "Зарегистрироваться");
+    form.appendChild(submitButton);
+    
+    modalContent.appendChild(form);
     modal.appendChild(modalContent);
 
     // Добавляем модальное окно в документ

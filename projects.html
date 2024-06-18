@@ -1,37 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<html >
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fetch Example</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css" />
-    
-    <!-- <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-
-        .name-link {
-            display: block;
-            margin: 5px 0;
-        }
-    </style> -->
     <script>
-        //наличие логина проверяется только наличием значения в сторадже
         if (!sessionStorage.getItem('userId')) {
-            // Если userId отсутствует, перенаправляем на страницу login.html
             window.location.href = 'login.html';
         } 
-    </script>
-    
+    </script> 
 </head>
-
 <body>
     <button id="createButton" onclick="createProjectModal()">Создать проект</button>
-    <!-- <div id="projectContainer"></div> -->
 
     <h1>Проекты пользователя</h1>
     <table id="projectTable" >
@@ -39,16 +19,13 @@
             <tr>
                 <th>ID</th>
                 <th>Название</th>
-                <th>Actions</th>
+                <th>Действие</th>
             </tr>
         </thead>
         <tbody>
             <!-- Строки данных будут добавлены здесь через JavaScript -->
         </tbody>
     </table>
-
-    
     <script src="scripts/projects.js"></script>
 </body>
-
 </html>

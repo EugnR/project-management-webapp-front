@@ -1,42 +1,35 @@
 <html>
-
 <head>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
   <link rel="stylesheet" href="style.css" />
-  
+  <script>
+    if (!sessionStorage.getItem('userId')) {
+        window.location.href = 'login.html';
+    } 
+  </script>
 
 </head>
 
 <body>
-  <h1>Проект №000001</h1>
-
-
+  <h1>Проект №</h1>
   <button type="button" class="btn btn-info btn-sm rounded-pill" onclick="createColumn()">
     <i class="fas fa-star"></i> Добавить статус-столбец
   </button>
   <br><br>
-
-
-  <div class="board">
-    
-  </div>
-
+  <div class="board">  </div>
 
   <script src="scripts/read-url.js"></script>
-  
   <script src="scripts/create-task.js"></script>
   <script src="scripts/create-column.js"></script>
-  
   <script src="scripts/dnd.js"></script>
   <script src="scripts/dnd-columns.js"></script>
   <script src="scripts/dnd-items.js"></script>
   <script src="scripts/build-board.js"></script>
-
   <script src="scripts/modalTask.js"></script>
   <script src="scripts/modalStatus.js"></script>
-  <script src="scripts/scroll.js"></script>
+  <!-- <script src="scripts/scroll.js"></script> -->
 
 </body>
 

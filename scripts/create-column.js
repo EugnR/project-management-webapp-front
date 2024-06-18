@@ -173,6 +173,7 @@ function createColumn() {
             if (newStatusId !== false) {
                 column.setAttribute("data-col-id", newStatusId);
                 // columnDeleter.onclick = function () { deleteColumn(newStatusId); };
+                columnHeader.setAttribute('onclick', `createStatusModal(${newStatusId}, '${newColumnName}')`);
                 columnDeleter.setAttribute("onclick", `deleteColumn(${newStatusId})`);
             } else {
                 alert("Не удалось создать новый статус");

@@ -16,9 +16,6 @@ function createStatusModal(statusId, statusName) {
     modalTitle.innerHTML = `Редактировать статус ${statusId}`;
 
     var form = document.createElement("form");
-    // form.setAttribute("action", `http://localhost:8080/api/v1/editStatusName/${statusId}`);
-    // form.setAttribute('method', 'POST');
-
 
     var nameInput = document.createElement("input");
     nameInput.setAttribute("name", "newStatusName");
@@ -27,8 +24,8 @@ function createStatusModal(statusId, statusName) {
     form.appendChild(nameInput);
 
 
-    form.appendChild(document.createElement("br")); // добавляем перенос строки
-    form.appendChild(document.createElement("br")); // добавляем перенос строки
+    form.appendChild(document.createElement("br"));
+    form.appendChild(document.createElement("br"));
 
     var submitInput = document.createElement("input");
     submitInput.setAttribute("type", "submit");

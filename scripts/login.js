@@ -1,5 +1,4 @@
 document.getElementById('enterButton').addEventListener('click', function () {
-
     let requiredFields = document.querySelectorAll('.required-login');
     let allFieldsFilled = true;
 
@@ -14,17 +13,12 @@ document.getElementById('enterButton').addEventListener('click', function () {
             field.style.border = '';  // Убираем подсветку, если поле заполнено
         }
     });
-
     // Если не все поля заполнены, предотвращаем отправку формы и показываем сообщение
     if (!allFieldsFilled) {
         alert('Пожалуйста, заполните все обязательные поля.');
-        // event.preventDefault();
         return;
 
     }
-
-
-
 
     const login = document.getElementById('login').value;
     const password = document.getElementById('password').value;
