@@ -37,6 +37,7 @@ document.getElementById('enterButton').addEventListener('click', function () {
     })
         .then(response => {
             if (!response.ok) {
+                alert('Неправильный логин или пароль!');
                 throw new Error('Network response was not ok');
             }
             // console.log(response.json());
